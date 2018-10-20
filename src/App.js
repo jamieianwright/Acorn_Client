@@ -32,12 +32,12 @@ class App extends Component {
       <div>
         <Navbar color="light" light expand="md">
           <Container>
-            <NavbarBrand href="/">Dashboard</NavbarBrand>
+            <Link to='/' className='navbar-brand'>Dashboard</Link>
             <NavbarToggler onClick={this.toggle} />
             <Collapse isOpen={this.state.isOpen} navbar>
               <Nav navbar>
                 <NavItem>
-                  <NavLink href="/suppliers">Suppliers</NavLink>
+                  <Link className='nav-link' to='/suppliers'>Suppliers</Link>
                 </NavItem>
               </Nav>
             </Collapse>
