@@ -5,10 +5,8 @@ import {
   Container,
   Navbar,
   NavbarToggler,
-  NavbarBrand,
   Nav,
   NavItem,
-  NavLink,
   } from 'reactstrap';
 import Suppliers from './Suppliers';
 

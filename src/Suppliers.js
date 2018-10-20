@@ -8,8 +8,6 @@ class Suppliers extends Component {
       suppliers: [],
       isLoaded: true
     }
-    console.log(process.env.API_BASE_URL)
-    console.log(process.env)
   }
 
   componentDidMount(){
