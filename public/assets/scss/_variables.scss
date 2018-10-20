@@ -1,5 +1,19 @@
 @import "node_modules/bootstrap/scss/functions.scss";
 @import "fonts";
 
-$primary: green;
+$primary: #3D6A4B;
+$tertiary: #443923;
+$quaternary: #E7F0B7;
+$quinary: #C7DF6F;
+$senary: #5D8B40;
+$septenary: #A5DBA9;
+
+$theme-colors: (
+  "tertiary": $tertiary,
+  "quaternary": $quaternary,
+  "quinary": $quinary,
+  "senary": $senary,
+  "septenary": $septenary
+);
+
 $font-family-sans-serif: 'Ubuntu', sans-serif;

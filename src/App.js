@@ -29,7 +29,7 @@ class App extends Component {
       <div>
         <Navbar color="light" light expand="md">
           <Container>
-            <Link to='/' className='navbar-brand'>Dashboard</Link>
+            <Link to='/' className='navbar-brand text-primary'>Dashboard</Link>
             <NavbarToggler onClick={this.toggle} />
             <Collapse isOpen={this.state.isOpen} navbar>
               <Nav navbar>
