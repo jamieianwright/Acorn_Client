@@ -8,10 +8,11 @@
     "react-scripts": "2.0.5"
   },
   "scripts": {
-    "start": "gulp && react-scripts start",
+    "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "dev": "gulp && npm start"
   },
   "eslintConfig": {
     "extends": "react-app"
