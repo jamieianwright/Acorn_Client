@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 class App extends Component {
   render() {
     return (
-      <div>Suppliers motherfucker</div>
+      <div className="container">This is a container</div>
     );
   }
 }

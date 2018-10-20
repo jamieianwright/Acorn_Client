@@ -1,6 +1,6 @@
+@import "variables";
+@import "node_modules/bootstrap/scss/bootstrap.scss";
+
 body {
-  div {
-    background-color: blue;
-    transform: translateY(10px);
-  }
+  background-color: $primary;
 }
