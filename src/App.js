@@ -10,7 +10,6 @@ import {
   NavItem,
   NavLink,
   } from 'reactstrap';
-
 import Suppliers from './Suppliers';
 
 class App extends Component {

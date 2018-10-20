@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Container, Table } from 'reactstrap';
-import ApiBaseUrl from './config';
 
 class Suppliers extends Component {
   constructor(props) {
@@ -9,6 +8,8 @@ class Suppliers extends Component {
       suppliers: [],
       isLoaded: true
     }
+    console.log(process.env.API_BASE_URL)
+    console.log(process.env)
   }
 
   componentDidMount(){
@@ -20,7 +21,7 @@ class Suppliers extends Component {
       isLoaded: false
     })
 
-    fetch(ApiBaseUrl + 'suppliers/')
+    fetch(process.env.REACT_APP_API_BASE_URL + 'suppliers/')
       .then(res => res.json())
       .then(result => {
         this.setState({
