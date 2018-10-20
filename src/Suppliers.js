@@ -1,9 +1,12 @@
 import React, { Component } from 'react';
+import { Container } from 'reactstrap';
 
 class Suppliers extends Component {
   render() {
     return (
-      <div className="container">This is the suppliers page</div>
+      <Container>
+        <h1>Suppliers</h1>
+      </Container>
     );
   }
 }
