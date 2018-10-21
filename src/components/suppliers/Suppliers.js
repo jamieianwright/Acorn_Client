@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Container, Table, Button, Modal, ModalHeader, ModalBody, ModalFooter, Form, FormGroup, Label, Input, Badge } from 'reactstrap';
+import { Container, Table, Button, Modal, ModalHeader, ModalBody, ModalFooter, Form, FormGroup, Label, Input, Badge, InputGroup, InputGroupAddon, InputGroupText } from 'reactstrap';
 import Supplier from './Supplier';
 import './Suppliers.css';
 
@@ -8,9 +8,11 @@ class Suppliers extends Component {
     super(props);
     this.state = {
       suppliers: [],
+      filteredSuppliers: [],
       isLoaded: true,
       modal: false,
-      asc: true
+      asc: true,
+      search: ''
     }
 
     this.handleChange = this.handleChange.bind(this);
@@ -90,13 +92,21 @@ class Suppliers extends Component {
   }
 
   render() {
-    const suppliers = this.state.suppliers.map((supplier, i) => {
+    const filteredSuppliers = this.state.suppliers.filter(
+      (supplier) => {
+        return supplier.name.toLowerCase().indexOf(
+          this.state.search.toLowerCase()) !==-1;
+      }
+    )
+
+    const suppliers = filteredSuppliers.map((supplier, i) => {
       return <Supplier key={i} {...supplier} onEdit={this.getSuppliers}/>
     })
     return (
       <Container>
         <h1>Suppliers</h1>
-        <Button className='margin-y' color="danger" onClick={this.toggleCreateModal}>Add New Supplier</Button>
+        <div className='control-bar'>
+        <Button className='' color="danger" onClick={this.toggleCreateModal}>Add New Supplier</Button>
         <Modal isOpen={this.state.modal} toggle={this.toggleCreateModal} className={this.props.className}>
           <ModalHeader toggle={this.toggleCreateModal}>Add New Supplier</ModalHeader>
           <ModalBody>
@@ -124,6 +134,13 @@ class Suppliers extends Component {
             <Button color="secondary" onClick={this.toggleCreateModal}>Cancel</Button>
           </ModalFooter>
         </Modal>
+        <InputGroup className='search-bar'>
+          <InputGroupAddon addonType="prepend">
+            <InputGroupText>Search for Supplier</InputGroupText>
+          </InputGroupAddon>
+          <Input name='search' value={this.state.search}  onChange={this.handleChange}/>
+        </InputGroup>
+        </div>
         <Table>
           <thead>
             <tr>

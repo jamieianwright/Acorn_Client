@@ -1,4 +1,12 @@
-.margin-y {
-    margin-top: 1.5em;
-    margin-bottom: 1.5em;
+
+.control-bar{
+    position: relative;
+    height: auto;
+    margin: 1.5em 0;
+}
+
+.search-bar{
+    max-width: 400px;
+    float: right;
+
 }
