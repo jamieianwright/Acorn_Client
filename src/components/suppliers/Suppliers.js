@@ -68,15 +68,15 @@ class Suppliers extends Component {
 
   handleSortTable(){
     let asc = this.state.asc
-    
+
     let sortedSuppliers = this.state.suppliers.sort(function(a, b){
       if(asc){
-        if(a.name < b.name) { return -1; }
-        if(a.name > b.name) { return 1; }
+        if(a.name.toUpperCase() < b.name.toUpperCase()) { return -1; }
+        if(a.name.toUpperCase() > b.name.toUpperCase()) { return 1; }
         return 0;
       } else {
-        if(a.name > b.name) { return -1; }
-        if(a.name < b.name) { return 1; }
+        if(a.name.toUpperCase() > b.name.toUpperCase()) { return -1; }
+        if(a.name.toUpperCase() < b.name.toUpperCase()) { return 1; }
         return 0;
       }
     })
