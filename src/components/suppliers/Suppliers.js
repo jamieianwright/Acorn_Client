@@ -8,13 +8,15 @@ class Suppliers extends Component {
     this.state = {
       suppliers: [],
       isLoaded: true,
-      modal: false
+      modal: false,
+      asc: false
     }
 
     this.handleChange = this.handleChange.bind(this);
     this.toggleCreateModal = this.toggleCreateModal.bind(this);
     this.handleCreateSupplier = this.handleCreateSupplier.bind(this);
     this.getSuppliers = this.getSuppliers.bind(this);
+    this.handleSortTable = this.handleSortTable.bind(this);
   }
 
   componentDidMount(){
@@ -64,6 +66,27 @@ class Suppliers extends Component {
     this.toggleCreateModal()
   }
 
+  handleSortTable(){
+    let asc = this.state.asc
+    
+    let sortedSuppliers = this.state.suppliers.sort(function(a, b){
+      if(asc){
+        if(a.name < b.name) { return -1; }
+        if(a.name > b.name) { return 1; }
+        return 0;
+      } else {
+        if(a.name > b.name) { return -1; }
+        if(a.name < b.name) { return 1; }
+        return 0;
+      }
+    })
+
+    this.setState({
+      suppliers: sortedSuppliers,
+      asc: !this.state.asc
+    });
+  }
+
   render() {
     const suppliers = this.state.suppliers.map((supplier, i) => {
       return <Supplier key={i} {...supplier} onEdit={this.getSuppliers}/>
@@ -102,7 +125,7 @@ class Suppliers extends Component {
         <Table>
           <thead>
             <tr>
-              <th>Name</th>
+              <th onClick={this.handleSortTable}>Name</th>
               <th>Phone Number</th>
               <th>Website</th>
               <th>Email</th>
