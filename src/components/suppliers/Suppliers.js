@@ -10,7 +10,7 @@ class Suppliers extends Component {
       suppliers: [],
       isLoaded: true,
       modal: false,
-      asc: false
+      asc: true
     }
 
     this.handleChange = this.handleChange.bind(this);
@@ -37,6 +37,7 @@ class Suppliers extends Component {
           isLoaded: true
         })
       })
+      .then(() => this.handleSortTable())
   }
 
   toggleCreateModal() {
@@ -126,7 +127,7 @@ class Suppliers extends Component {
         <Table>
           <thead>
             <tr>
-              <th>Name <Badge className='btn' color="info" onClick={this.handleSortTable}>Sort</Badge></th>
+              <th>Name <Badge className='btn' color="info" onClick={this.handleSortTable}>{(this.state.asc)? 'Z > A' : 'A > Z'}</Badge></th>
               <th>Phone Number</th>
               <th>Website</th>
               <th>Email</th>
