@@ -14,6 +14,7 @@ class Suppliers extends Component {
     this.handleChange = this.handleChange.bind(this);
     this.toggleCreateModal = this.toggleCreateModal.bind(this);
     this.handleCreateSupplier = this.handleCreateSupplier.bind(this);
+    this.getSuppliers = this.getSuppliers.bind(this);
   }
 
   componentDidMount(){
@@ -64,8 +65,8 @@ class Suppliers extends Component {
   }
 
   render() {
-    const suppliers = this.state.suppliers.map((supplier) => {
-      return <Supplier {...supplier}/>
+    const suppliers = this.state.suppliers.map((supplier, i) => {
+      return <Supplier key={i} {...supplier} onEdit={this.getSuppliers}/>
     })
     return (
       <Container>
