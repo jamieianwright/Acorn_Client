@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Container, Table, Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
+import { Container, Table, Button, Modal, ModalHeader, ModalBody, ModalFooter, Form, FormGroup, Label, Input, FormText  } from 'reactstrap';
 import Supplier from './Supplier';
 
 class Suppliers extends Component {
@@ -11,7 +11,9 @@ class Suppliers extends Component {
       modal: false
     }
 
+    this.handleChange = this.handleChange.bind(this);
     this.toggleCreateModal = this.toggleCreateModal.bind(this);
+    this.handleCreateSupplier = this.handleCreateSupplier.bind(this);
   }
 
   componentDidMount(){
@@ -35,8 +37,30 @@ class Suppliers extends Component {
 
   toggleCreateModal() {
     this.setState({
-      modal: !this.state.modal
+      modal: !this.state.modal,
+      new_name: '',
+      new_phone_number: '',
+      new_website: '',
+      new_email: ''
     });
+  }
+
+  handleChange(e) {
+    this.setState({[e.target.name]: e.target.value});
+  }
+
+  handleCreateSupplier(){
+    fetch(process.env.REACT_APP_API_BASE_URL + 'suppliers/', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({name: this.state.new_name, phone_number: this.state.new_phone_number, website: this.state.new_website, email: this.state.new_email})
+    })
+    .then((result) => this.getSuppliers())
+
+    this.toggleCreateModal()
   }
 
   render() {
@@ -46,14 +70,31 @@ class Suppliers extends Component {
     return (
       <Container>
         <h1>Suppliers</h1>
-        <Button className='margin-y-lg' color="danger" onClick={this.toggleCreateModal}>Add New Supplier</Button>
+        <Button color="danger" onClick={this.toggleCreateModal}>Add New Supplier</Button>
         <Modal isOpen={this.state.modal} toggle={this.toggleCreateModal} className={this.props.className}>
-          <ModalHeader toggle={this.toggleCreateModal}>Modal title</ModalHeader>
+          <ModalHeader toggle={this.toggleCreateModal}>Add New Supplier</ModalHeader>
           <ModalBody>
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+            <Form>
+              <FormGroup>
+                <Label for='new_name'>Name</Label>
+                <Input type="text" name="new_name" id="new_name" placeholder="New Supplier Name" onChange={this.handleChange} value={this.state.new_name} />
+              </FormGroup>
+              <FormGroup>
+                <Label for='new_phone_number'>Phone Number</Label>
+                <Input type="text" name="new_phone_number" id="new_phone_number" placeholder="New Supplier Phone Number" onChange={this.handleChange} value={this.state.new_phone_number}/>
+              </FormGroup>
+              <FormGroup>
+                <Label for='new_website'>Website</Label>
+                <Input type="text" name="new_website" id="new_website" placeholder="New Supplier Website" onChange={this.handleChange} value={this.state.new_website}/>
+              </FormGroup>
+              <FormGroup>
+                <Label for='new_email'>Email</Label>
+                <Input type="email" name="new_email" id="new_email" placeholder="New Supplier Email" onChange={this.handleChange} value={this.state.new_email}/>
+              </FormGroup>
+            </Form>
           </ModalBody>
           <ModalFooter>
-            <Button color="primary" onClick={this.toggleCreateModal}>Do Something</Button>{' '}
+            <Button color="primary" onClick={this.handleCreateSupplier}>Submit</Button>
             <Button color="secondary" onClick={this.toggleCreateModal}>Cancel</Button>
           </ModalFooter>
         </Modal>

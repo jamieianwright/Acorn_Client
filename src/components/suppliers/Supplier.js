@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Container, Table } from 'reactstrap';
 
 class Supplier extends Component {
   constructor(props) {
