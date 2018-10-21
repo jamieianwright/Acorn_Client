@@ -8,7 +8,7 @@ import {
   Nav,
   NavItem,
   } from 'reactstrap';
-import Suppliers from './Suppliers';
+import Suppliers from './components/suppliers/Suppliers';
 
 class App extends Component {
   constructor(props) {
