@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import { Container, Table, Button, Modal, ModalHeader, ModalBody, ModalFooter, Form, FormGroup, Label, Input, FormText  } from 'reactstrap';
+import { Container, Table, Button, Modal, ModalHeader, ModalBody, ModalFooter, Form, FormGroup, Label, Input, Badge } from 'reactstrap';
 import Supplier from './Supplier';
+import './Suppliers.css';
 
 class Suppliers extends Component {
   constructor(props) {
@@ -94,7 +95,7 @@ class Suppliers extends Component {
     return (
       <Container>
         <h1>Suppliers</h1>
-        <Button color="danger" onClick={this.toggleCreateModal}>Add New Supplier</Button>
+        <Button className='margin-y' color="danger" onClick={this.toggleCreateModal}>Add New Supplier</Button>
         <Modal isOpen={this.state.modal} toggle={this.toggleCreateModal} className={this.props.className}>
           <ModalHeader toggle={this.toggleCreateModal}>Add New Supplier</ModalHeader>
           <ModalBody>
@@ -125,7 +126,7 @@ class Suppliers extends Component {
         <Table>
           <thead>
             <tr>
-              <th onClick={this.handleSortTable}>Name</th>
+              <th>Name <Badge className='btn' color="info" onClick={this.handleSortTable}>Sort</Badge></th>
               <th>Phone Number</th>
               <th>Website</th>
               <th>Email</th>
