@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Container, Table, Button, Modal, ModalHeader, ModalBody, ModalFooter, Form, FormGroup, Label, Input, Badge, InputGroup, InputGroupAddon, InputGroupText } from 'reactstrap';
 import Supplier from './Supplier';
 import './Suppliers.css';
+import Breadcrumb from '../BreadcrumbUI';
 
 class Suppliers extends Component {
   constructor(props) {
@@ -92,6 +93,7 @@ class Suppliers extends Component {
   }
 
   render() {
+
     const filteredSuppliers = this.state.suppliers.filter(
       (supplier) => {
         return supplier.name.toLowerCase().indexOf(
@@ -102,10 +104,12 @@ class Suppliers extends Component {
     const suppliers = filteredSuppliers.map((supplier, i) => {
       return <Supplier key={i} {...supplier} onEdit={this.getSuppliers}/>
     })
+
     return (
       <Container>
         <h1>Suppliers</h1>
         <div className='control-bar'>
+        <Breadcrumb location={this.props.location} />
         <Button className='' color="danger" onClick={this.toggleCreateModal}>Add New Supplier</Button>
         <Modal isOpen={this.state.modal} toggle={this.toggleCreateModal} className={this.props.className}>
           <ModalHeader toggle={this.toggleCreateModal}>Add New Supplier</ModalHeader>
