@@ -17,7 +17,6 @@ class Suppliers extends Component {
     }
 
     this.handleChange = this.handleChange.bind(this);
-    this.toggleCreateModal = this.toggleCreateModal.bind(this);
     this.handleCreateSupplier = this.handleCreateSupplier.bind(this);
     this.getSuppliers = this.getSuppliers.bind(this);
     this.handleSortTable = this.handleSortTable.bind(this);
@@ -64,11 +63,14 @@ class Suppliers extends Component {
         'Accept': 'application/json',
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({name: this.state.new_name, phone_number: this.state.new_phone_number, website: this.state.new_website, email: this.state.new_email})
+      body: JSON.stringify({name: this.state.new_name, 
+                            phone_number: this.state.new_phone_number, 
+                            website: this.state.new_website, 
+                            email: this.state.new_email
+      })
     })
     .then((result) => this.getSuppliers())
-
-    this.toggleCreateModal()
+    .then(() => this.toggleCreateModal())
   }
 
   handleSortTable(){
@@ -102,7 +104,7 @@ class Suppliers extends Component {
     )
 
     const suppliers = filteredSuppliers.map((supplier, i) => {
-      return <Supplier key={i} {...supplier} onEdit={this.getSuppliers}/>
+      return <Supplier key={i} {...supplier} getSuppliers={this.getSuppliers}/>
     })
 
     return (
@@ -110,9 +112,9 @@ class Suppliers extends Component {
         <h1>Suppliers</h1>
         <div className='control-bar'>
         <Breadcrumb location={this.props.location} />
-        <Button className='' color="danger" onClick={this.toggleCreateModal}>Add New Supplier</Button>
-        <Modal isOpen={this.state.modal} toggle={this.toggleCreateModal} className={this.props.className}>
-          <ModalHeader toggle={this.toggleCreateModal}>Add New Supplier</ModalHeader>
+        <Button className='' color="danger" onClick={() => this.toggleCreateModal()}>Add New Supplier</Button>
+        <Modal isOpen={this.state.modal} toggle={() => this.toggleCreateModal()} className={this.props.className}>
+          <ModalHeader toggle={() => this.toggleCreateModal()}>Add New Supplier</ModalHeader>
           <ModalBody>
             <Form>
               <FormGroup>
@@ -135,7 +137,7 @@ class Suppliers extends Component {
           </ModalBody>
           <ModalFooter>
             <Button color="primary" onClick={this.handleCreateSupplier}>Submit</Button>
-            <Button color="secondary" onClick={this.toggleCreateModal}>Cancel</Button>
+            <Button color="secondary" onClick={() => this.toggleCreateModal()}>Cancel</Button>
           </ModalFooter>
         </Modal>
         <InputGroup className='search-bar'>

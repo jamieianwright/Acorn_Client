@@ -16,11 +16,6 @@ class Supplier extends Component {
         this.handleDeleteSupplier = this.handleDeleteSupplier.bind(this);
     }
 
-//   componentWillMount(){
-//     this.setState({
-//     });
-//   }
-
     toggle() {
         this.setState({
             dropdownOpen: !this.state.dropdownOpen,
@@ -50,14 +45,14 @@ class Supplier extends Component {
             },
             body: JSON.stringify({name: this.state.edit_name, phone_number: this.state.edit_phone_number, website: this.state.edit_website, email: this.state.edit_email})
         })
-        .then((result) => this.props.onEdit())
+        .then((result) => this.props.getSuppliers())
 
         this.toggleEditModal()
     }
 
     handleDeleteSupplier(){
         fetch(`${process.env.REACT_APP_API_BASE_URL}suppliers/${this.props.id}`, {method: 'DELETE',})
-        .then((result) => this.props.onEdit())
+        .then((result) => this.props.getSuppliers())
     }
 
     render() {
