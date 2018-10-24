@@ -119,19 +119,19 @@ class Suppliers extends Component {
             <Form>
               <FormGroup>
                 <Label for='new_name'>Name</Label>
-                <Input type="text" name="new_name" id="new_name" placeholder="New Supplier Name" onChange={this.handleChange} value={this.state.new_name} />
+                <Input type="text" name="new_name" id="new_name" placeholder="New Supplier Name" onChange={this.handleChange} value={this.state.new_name}  maxlength="255" required/>
               </FormGroup>
               <FormGroup>
                 <Label for='new_phone_number'>Phone Number</Label>
-                <Input type="text" name="new_phone_number" id="new_phone_number" placeholder="New Supplier Phone Number" onChange={this.handleChange} value={this.state.new_phone_number}/>
+                <Input type="number" name="new_phone_number" id="new_phone_number" placeholder="New Supplier Phone Number" onChange={this.handleChange} value={this.state.new_phone_number}  maxlength="255" required/>
               </FormGroup>
               <FormGroup>
                 <Label for='new_website'>Website</Label>
-                <Input type="text" name="new_website" id="new_website" placeholder="New Supplier Website" onChange={this.handleChange} value={this.state.new_website}/>
+                <Input type="text" name="new_website" id="new_website" placeholder="New Supplier Website" onChange={this.handleChange} value={this.state.new_website}  maxlength="255" required/>
               </FormGroup>
               <FormGroup>
                 <Label for='new_email'>Email</Label>
-                <Input type="email" name="new_email" id="new_email" placeholder="New Supplier Email" onChange={this.handleChange} value={this.state.new_email}/>
+                <Input type="email" name="new_email" id="new_email" placeholder="New Supplier Email" onChange={this.handleChange} value={this.state.new_email}  maxlength="255" required/>
               </FormGroup>
             </Form>
           </ModalBody>
