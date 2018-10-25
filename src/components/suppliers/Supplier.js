@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { ButtonDropdown, DropdownToggle, DropdownMenu, DropdownItem, Label, Input, Button, Modal, ModalBody, ModalHeader, ModalFooter, Form, FormGroup } from 'reactstrap';
+import { truncateString } from '../../utils.js';
 
 class Supplier extends Component {
     constructor(props) {
@@ -56,10 +57,10 @@ class Supplier extends Component {
     }
 
     render() {
-    
+
         return (
             <tr>
-                <th>{this.props.name}</th>
+                <th>{truncateString(this.props.name)}</th>
                 <th>{this.props.phone_number}</th>
                 <th>{this.props.website}</th>
                 <th>{this.props.email}</th>
