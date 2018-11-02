@@ -12,7 +12,7 @@ class Suppliers extends Component {
       filteredSuppliers: [],
       isLoaded: true,
       modal: false,
-      asc: true,
+      asc: false,
       search: ''
     }
 
@@ -22,7 +22,7 @@ class Suppliers extends Component {
     this.handleSortTable = this.handleSortTable.bind(this);
   }
 
-  componentDidMount(){
+  componentWillMount(){
     this.getSuppliers()
   }
 
@@ -73,11 +73,17 @@ class Suppliers extends Component {
     .then(() => this.toggleCreateModal())
   }
 
+  handleSortInvert(){
+    this.setState({
+      asc: !this.state.asc
+    }, this.handleSortTable)
+  }
+
   handleSortTable(){
     let asc = this.state.asc
 
     let sortedSuppliers = this.state.suppliers.sort(function(a, b){
-      if(asc){
+      if(!asc){
         if(a.name.toUpperCase() < b.name.toUpperCase()) { return -1; }
         if(a.name.toUpperCase() > b.name.toUpperCase()) { return 1; }
         return 0;
@@ -90,7 +96,6 @@ class Suppliers extends Component {
 
     this.setState({
       suppliers: sortedSuppliers,
-      asc: !this.state.asc
     });
   }
 
@@ -150,7 +155,7 @@ class Suppliers extends Component {
         <Table>
           <thead>
             <tr>
-              <th>Name <Badge className='btn' color="info" onClick={this.handleSortTable}>{(this.state.asc)? 'Z > A' : 'A > Z'}</Badge></th>
+              <th>Name <Badge className='btn' color="info" onClick={() => this.handleSortInvert()}>{(this.state.asc)? 'Z > A' : 'A > Z'}</Badge></th>
               <th>Phone Number</th>
               <th>Website</th>
               <th>Email</th>
