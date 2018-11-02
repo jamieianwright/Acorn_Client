@@ -113,7 +113,7 @@ class Supplier extends Component {
                             </ModalFooter>
                         </Modal>
                         <DropdownItem divider />
-                        <DropdownItem onClick={this.handleDeleteSupplier}>Delete</DropdownItem>
+                        <DropdownItem onClick={() => this.toggleDeleteModal()}>Delete</DropdownItem>
                     </DropdownMenu>
                 </ButtonDropdown>
                 </th>
