@@ -10,11 +10,6 @@ class Supplier extends Component {
             deleteModalVisible: false,
             editModalVisible: false,
         }
-
-        this.toggleDropDown = this.toggleDropDown.bind(this);
-        this.toggleEditModal = this.toggleEditModal.bind(this);
-        this.handleChange = this.handleChange.bind(this);
-        this.handleEditSupplier = this.handleEditSupplier.bind(this);
     }
 
     toggleDropDown() {
@@ -29,7 +24,7 @@ class Supplier extends Component {
 
     toggleEditModal() {
         this.setState({
-            modal: !this.state.editModalVisible,
+            editModalVisible: !this.state.editModalVisible,
             edit_name: this.props.name,
             edit_phone_number: this.props.phone_number,
             edit_website: this.props.website,
@@ -44,9 +39,12 @@ class Supplier extends Component {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ name: this.state.edit_name, phone_number: this.state.edit_phone_number, website: this.state.edit_website, email: this.state.edit_email })
+            body: JSON.stringify({ name: this.state.edit_name, 
+                                    phone_number: this.state.edit_phone_number, 
+                                    website: this.state.edit_website, 
+                                    email: this.state.edit_email })
         })
-            .then((result) => this.props.getSuppliers())
+        .then((result) => this.props.getSuppliers())
 
         this.toggleEditModal()
     }
@@ -71,35 +69,35 @@ class Supplier extends Component {
                 <th>{this.props.phone_number}</th>
                 <th>{this.props.website}</th>
                 <th>{this.props.email}</th>
-                <th><ButtonDropdown isOpen={this.state.dropdownOpen} toggle={this.toggleDropDown}>
+                <th><ButtonDropdown isOpen={this.state.dropdownOpen} toggle={() => this.toggleDropDown()}>
                     <DropdownToggle caret>Modify</DropdownToggle>
                     <DropdownMenu>
-                        <DropdownItem onClick={this.toggleEditModal}>Edit</DropdownItem>
-                        <Modal isOpen={this.state.editModalVisible} toggle={this.toggleEditModal} className={this.props.className}>
-                            <ModalHeader toggle={this.toggleEditModal}>Add New Supplier</ModalHeader>
+                        <DropdownItem onClick={() => this.toggleEditModal()}>Edit</DropdownItem>
+                        <Modal isOpen={this.state.editModalVisible} toggle={() => this.toggleEditModal()} className={this.props.className}>
+                            <ModalHeader toggle={() => this.toggleEditModal()}>{`Edit Supplier: ${this.props.name}`}</ModalHeader>
                             <ModalBody>
                                 <Form>
                                     <FormGroup>
                                         <Label for='edit_name'>Name</Label>
-                                        <Input type="text" name="edit_name" id="edit_name" onChange={this.handleChange} value={this.state.edit_name} />
+                                        <Input type="text" name="edit_name" id="edit_name" onChange={(e) => this.handleChange(e)} value={this.state.edit_name} />
                                     </FormGroup>
                                     <FormGroup>
                                         <Label for='edit_phone_number'>Phone Number</Label>
-                                        <Input type="text" name="edit_phone_number" id="edit_phone_number" onChange={this.handleChange} value={this.state.edit_phone_number} />
+                                        <Input type="text" name="edit_phone_number" id="edit_phone_number" onChange={(e) => this.handleChange(e)} value={this.state.edit_phone_number} />
                                     </FormGroup>
                                     <FormGroup>
                                         <Label for='edit_website'>Website</Label>
-                                        <Input type="text" name="edit_website" id="edit_website" onChange={this.handleChange} value={this.state.edit_website} />
+                                        <Input type="text" name="edit_website" id="edit_website" onChange={(e) => this.handleChange(e)} value={this.state.edit_website} />
                                     </FormGroup>
                                     <FormGroup>
                                         <Label for='new_email'>Email</Label>
-                                        <Input type="email" name="edit_email" id="edit_email" onChange={this.handleChange} value={this.state.edit_email} />
+                                        <Input type="email" name="edit_email" id="edit_email" onChange={(e) => this.handleChange(e)} value={this.state.edit_email} />
                                     </FormGroup>
                                 </Form>
                             </ModalBody>
                             <ModalFooter>
-                                <Button color="primary" onClick={this.handleEditSupplier}>Submit</Button>
-                                <Button color="secondary" onClick={this.toggleEditModal}>Cancel</Button>
+                                <Button color="primary" onClick={() => this.handleEditSupplier()}>Submit</Button>
+                                <Button color="secondary" onClick={() => this.toggleEditModal()}>Cancel</Button>
                             </ModalFooter>
                         </Modal>
                         <Modal isOpen={this.state.deleteModalVisible} toggle={() => this.toggleDeleteModal()} className={this.props.className}>
