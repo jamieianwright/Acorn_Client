@@ -3,6 +3,7 @@ import { Container, Table, Button, Modal, ModalHeader, ModalBody, ModalFooter, F
 import Supplier from './Supplier';
 import './Suppliers.css';
 import Breadcrumb from '../BreadcrumbUI';
+import _ from 'lodash';
 
 class Suppliers extends Component {
   constructor(props) {
@@ -12,7 +13,7 @@ class Suppliers extends Component {
       filteredSuppliers: [],
       isLoaded: true,
       modal: false,
-      asc: false,
+      desc: false,
       search: ''
     }
 
@@ -75,24 +76,14 @@ class Suppliers extends Component {
 
   handleSortInvert(){
     this.setState({
-      asc: !this.state.asc
+      desc: !this.state.desc
     }, this.handleSortTable)
   }
 
   handleSortTable(){
-    let asc = this.state.asc
+    let desc = this.state.desc
 
-    let sortedSuppliers = this.state.suppliers.sort(function(a, b){
-      if(!asc){
-        if(a.name.toUpperCase() < b.name.toUpperCase()) { return -1; }
-        if(a.name.toUpperCase() > b.name.toUpperCase()) { return 1; }
-        return 0;
-      } else {
-        if(a.name.toUpperCase() > b.name.toUpperCase()) { return -1; }
-        if(a.name.toUpperCase() < b.name.toUpperCase()) { return 1; }
-        return 0;
-      }
-    })
+    let sortedSuppliers = _.orderBy(this.state.suppliers, [supplier => supplier.name.toLowerCase()], [(!desc)? 'asc': 'desc'])
 
     this.setState({
       suppliers: sortedSuppliers,
@@ -155,7 +146,7 @@ class Suppliers extends Component {
         <Table>
           <thead>
             <tr>
-              <th>Name <Badge className='btn' color="info" onClick={() => this.handleSortInvert()}>{(this.state.asc)? 'Z > A' : 'A > Z'}</Badge></th>
+              <th>Name <Badge className='btn' color="info" onClick={() => this.handleSortInvert()}>{(this.state.desc)? 'Z > A' : 'A > Z'}</Badge></th>
               <th>Phone Number</th>
               <th>Website</th>
               <th>Email</th>
