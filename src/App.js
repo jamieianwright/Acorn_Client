@@ -18,15 +18,42 @@ class App extends Component {
 
     this.toggle = this.toggle.bind(this);
     this.state = {
-      isOpen: false
+      isOpen: false,
+      login_jwt: undefined
     };
+    this.onLogIn = this.onLogIn.bind(this)
+    this.onLogOut = this.onLogOut.bind(this)
   }
+
+  componentWillMount(){
+    this.setState({
+      login_jwt: localStorage.getItem('login-jwt')
+    })
+  }
+
   toggle() {
     this.setState({
       isOpen: !this.state.isOpen
     });
   }
+
+  onLogOut(){
+    localStorage.removeItem('login-jwt');
+    this.setState({
+      login_jwt: undefined
+    })
+  }
+
+  onLogIn(jwt){
+    this.setState({
+      login_jwt: jwt
+    })
+  }
+
   render() {
+
+    const AuthenticationNav = (this.state.login_jwt) ? <LogOut onLogOut={this.onLogOut}/> : <LogIn />;
+
     return (
       <BrowserRouter>
       <div>
@@ -40,20 +67,21 @@ class App extends Component {
                   <Link className='nav-link' to='/suppliers'>Suppliers</Link>
                 </NavItem>
               </Nav>
+              <Nav className="ml-auto">
+                {AuthenticationNav}
+              </Nav>
             </Collapse>
           </Container>
         </Navbar>
       <main>
-        
           <Switch>
             <Route exact path="/" component={Home} />
-            <Route path="/login" component={Login} />
+            <Route path="/login" render={(props) => <Login onLogIn={this.onLogIn} {...props}/>}/>
             <AuthenticationComponent>
               <Route path="/suppliers" component={Suppliers} />
             </AuthenticationComponent>
             <Route component={PageNotFound} />
-          </Switch>
-        
+          </Switch>   
       </main>
     </div>
     </BrowserRouter>
@@ -67,6 +95,14 @@ const PageNotFound = () => (
 
 const Home = () => (
   <Container>Dashboard coming soon!</Container>
+)
+
+const LogOut = (props) => (
+  <NavItem ><Link onClick={() => props.onLogOut()} to='/'>Log Out</Link></NavItem>
+)
+
+const LogIn = () => (
+  <NavItem ><Link to='/login'>Log In</Link></NavItem>
 )
 
 export default App;

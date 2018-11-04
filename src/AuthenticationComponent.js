@@ -7,7 +7,7 @@ class AuthenticatedComponent extends Component {
     super(props);
 
     this.state = {
-      user: undefined
+      jwt: undefined
     };
   }
 
@@ -19,7 +19,7 @@ class AuthenticatedComponent extends Component {
 
     axios.get(process.env.REACT_APP_API_BASE_URL + 'getUser', { headers: { Authorization: `Bearer ${jwt}` } })
     .then(res => this.setState({
-      user: res.data
+      jwt: res.data
     })).catch(err => {
       localStorage.removeItem('login-jwt');
       this.props.history.push('/login');
@@ -27,7 +27,7 @@ class AuthenticatedComponent extends Component {
   }
 
   render() {
-    if (this.state.user === undefined) {
+    if (this.state.jwt === undefined) {
       return (
         <div><h1>Loading...</h1></div>
       );
