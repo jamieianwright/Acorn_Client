@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Switch, Route, Link } from 'react-router-dom';
+import { BrowserRouter, Switch, Route, Link } from 'react-router-dom';
 import {
   Collapse,
   Container,
@@ -9,6 +9,8 @@ import {
   NavItem,
   } from 'reactstrap';
 import Suppliers from './components/suppliers/Suppliers';
+import Login from './components/authentication/login';
+import AuthenticationComponent from './AuthenticationComponent';
 
 class App extends Component {
   constructor(props) {
@@ -26,6 +28,7 @@ class App extends Component {
   }
   render() {
     return (
+      <BrowserRouter>
       <div>
         <Navbar color="light" light expand="md">
           <Container>
@@ -41,13 +44,19 @@ class App extends Component {
           </Container>
         </Navbar>
       <main>
-        <Switch>
-          <Route exact path="/" component={Home} />
-          <Route path="/suppliers" component={Suppliers} />
-          <Route component={PageNotFound} />
-        </Switch>
+        
+          <Switch>
+            <Route exact path="/" component={Home} />
+            <Route path="/login" component={Login} />
+            <AuthenticationComponent>
+              <Route path="/suppliers" component={Suppliers} />
+            </AuthenticationComponent>
+            <Route component={PageNotFound} />
+          </Switch>
+        
       </main>
     </div>
+    </BrowserRouter>
     );
   }
 }
