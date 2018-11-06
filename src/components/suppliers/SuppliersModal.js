@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
-import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Form, FormGroup, Label, Input } from 'reactstrap';
+import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Form, FormGroup, Label, Input, Alert } from 'reactstrap';
 
 class SuppliersModal extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            
+            alertVisible: false,
+            alertMessage: '',
         }
     }
 
@@ -25,22 +26,36 @@ class SuppliersModal extends Component {
     }
 
     handleSubmit(){
-        const method = (this.props.crud === 'create')? 'POST': 'PUT' ;
-        const fetchId = (this.props.id)? this.props.id : '';
-        fetch(`${process.env.REACT_APP_API_BASE_URL}suppliers/${fetchId}`, {
-          method: method,
-          headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({name: this.state.name,
-                                phone_number: this.state.phone_number,
-                                website: this.state.website,
-                                email: this.state.email
-          })
+        if (!this.state.name || !this.state.phone_number || !this.state.website || !this.state.email ){
+            this.setState({
+                alertVisible: true,
+                alertMessage: 'You must include all details about the supplier.'
+            })
+        } else{
+            const method = (this.props.crud === 'create')? 'POST': 'PUT' ;
+            const fetchId = (this.props.id)? this.props.id : '';
+            fetch(`${process.env.REACT_APP_API_BASE_URL}suppliers/${fetchId}`, {
+            method: method,
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({name: this.state.name,
+                                    phone_number: this.state.phone_number,
+                                    website: this.state.website,
+                                    email: this.state.email
+            })
+            })
+            .then((result) => this.props.getSuppliers())
+            .then(() => this.props.toggleModal())
+        }
+        
+    }
+
+    onDismissAlert(){
+        this.setState({
+            alertVisible: !this.state.alertVisible
         })
-        .then((result) => this.props.getSuppliers())
-        .then(() => this.props.toggleModal())
     }
 
 
@@ -53,10 +68,13 @@ class SuppliersModal extends Component {
                 <Modal isOpen={this.props.modalVisible} toggle={() => this.props.toggleModal()} >
                     <ModalHeader toggle={() => this.props.toggleModal()}>{modalTitle}</ModalHeader>
                     <ModalBody>
+                        <Alert color="danger" isOpen={this.state.alertVisible} toggle={() => this.onDismissAlert()}>
+                            {this.state.alertMessage}
+                        </Alert>
                         <Form>
                         <FormGroup>
                             <Label for='new_name'>Name</Label>
-                            <Input type="text" name="name" id="name" placeholder="Supplier Name" onChange={(e) => this.handleChange(e)} value={this.state.name}  maxLength="255" required/>
+                            <Input type="text" name="name" id="name" placeholder="Supplier Name" onChange={(e) => this.handleChange(e)} value={this.state.name}  maxLength="255" />
                         </FormGroup>
                         <FormGroup>
                             <Label for='phone_number'>Phone Number</Label>
