@@ -92,7 +92,7 @@ class Suppliers extends Component {
           <InputGroupAddon addonType="prepend">
             <InputGroupText>Search for Supplier</InputGroupText>
           </InputGroupAddon>
-          <Input name='search' value={this.state.search}  onChange={() => this.handleChange()}/>
+          <Input name='search' value={this.state.search}  onChange={(e) => this.handleChange(e)}/>
         </InputGroup>
         </div>
         <Table>
