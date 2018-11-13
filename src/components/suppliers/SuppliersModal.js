@@ -5,6 +5,10 @@ class SuppliersModal extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            name: '',
+            phone_number: '',
+            website: '',
+            email: '',
             alertVisible: false,
             alertMessage: '',
         }
@@ -46,10 +50,19 @@ class SuppliersModal extends Component {
                                     email: this.state.email
             })
             })
-            .then((result) => this.props.getSuppliers())
-            .then(() => this.props.toggleModal())
+            .then(res => res.json())
+            .then(result => {
+                if(result.errno === 1062){
+                    this.setState({
+                        alertVisible: true,
+                        alertMessage: `The supplier's name must be unique, '${this.state.name}' has already been taken.`
+                    })
+                } else {
+                    this.props.getSuppliers();
+                    this.props.toggleModal();
+                } 
+            })
         }
-        
     }
 
     onDismissAlert(){
