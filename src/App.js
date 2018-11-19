@@ -55,9 +55,9 @@ class App extends Component {
         {navBar}
       <main>
           <Switch>
-            <Route exact path="/" component={Home} />
             <Route path="/login" render={(props) => <Login onLogIn={this.onLogIn} {...props}/>}/>
             <AuthenticationComponent>
+              <Route exact path="/" component={Home} />
               <Route path="/suppliers" component={Suppliers} />
             </AuthenticationComponent>
             <Route component={PageNotFound} />
