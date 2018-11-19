@@ -1,13 +1,7 @@
 import React, { Component } from 'react';
-import { BrowserRouter, Switch, Route, Link } from 'react-router-dom';
-import {
-  Collapse,
-  Container,
-  Navbar,
-  NavbarToggler,
-  Nav,
-  NavItem,
-  } from 'reactstrap';
+import { withRouter, BrowserRouter, Switch, Route } from 'react-router-dom';
+import { Container } from 'reactstrap';
+import NavBarUI from './components/NavBarUI';
 import Suppliers from './components/suppliers/Suppliers';
 import Login from './components/authentication/login';
 import AuthenticationComponent from './AuthenticationComponent';
@@ -52,27 +46,13 @@ class App extends Component {
 
   render() {
 
-    const AuthenticationNav = (this.state.login_jwt) ? <LogOut onLogOut={this.onLogOut}/> : <LogIn />;
+    console.log(this.props.location)
+    const navBar = (this.props.location.pathname === '/login') ? null : <NavBarUI login_jwt={this.state.login_jwt} onLogOut={this.onLogOut}/>;
 
     return (
       <BrowserRouter>
       <div>
-        <Navbar color="light" light expand="md">
-          <Container>
-            <Link to='/' className='navbar-brand text-primary'>Dashboard</Link>
-            <NavbarToggler onClick={this.toggle} />
-            <Collapse isOpen={this.state.isOpen} navbar>
-              <Nav navbar>
-                <NavItem>
-                  <Link className='nav-link' to='/suppliers'>Suppliers</Link>
-                </NavItem>
-              </Nav>
-              <Nav className="ml-auto">
-                {AuthenticationNav}
-              </Nav>
-            </Collapse>
-          </Container>
-        </Navbar>
+        {navBar}
       <main>
           <Switch>
             <Route exact path="/" component={Home} />
@@ -97,12 +77,4 @@ const Home = () => (
   <Container>Dashboard coming soon!</Container>
 )
 
-const LogOut = (props) => (
-  <NavItem ><Link onClick={() => props.onLogOut()} to='/'>Log Out</Link></NavItem>
-)
-
-const LogIn = () => (
-  <NavItem ><Link to='/login'>Log In</Link></NavItem>
-)
-
-export default App;
+export default withRouter(App);
