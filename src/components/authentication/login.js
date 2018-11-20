@@ -45,7 +45,7 @@ class Login extends Component {
                     <img className='login-logo' src={require('./logo.png')} alt='acorn logo' ></img>
                     <form onSubmit={e => this.submit(e)} className='form-group login-form'>
                         <div className="form-group">
-                            <label>email</label>
+                            <label>Email</label>
                             <input
                                 type="text"
                                 className="form-control"
@@ -54,7 +54,7 @@ class Login extends Component {
                                 value={this.state.email}/>
                         </div>
                         <div className="form-group">
-                            <label>password</label>
+                            <label>Password</label>
                             <input
                                 type="password"
                                 className="form-control"
