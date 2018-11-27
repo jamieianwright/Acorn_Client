@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { withRouter, BrowserRouter, Switch, Route } from 'react-router-dom';
 import { Container } from 'reactstrap';
-import NavBarUI from './components/NavBarUI';
+import NavBarUI from './components/UIcomponents/NavBarUI';
 import Suppliers from './components/suppliers/Suppliers';
+import Components from './components/components/Components';
 import Login from './components/authentication/login';
 import AuthenticationComponent from './AuthenticationComponent';
 
@@ -32,6 +33,7 @@ class App extends Component {
   }
 
   onLogOut(){
+    console.log('Logged Out')
     localStorage.removeItem('login-jwt');
     this.setState({
       login_jwt: undefined
@@ -46,7 +48,6 @@ class App extends Component {
 
   render() {
 
-    console.log(this.props.location)
     const navBar = (this.props.location.pathname === '/login') ? null : <NavBarUI login_jwt={this.state.login_jwt} onLogOut={this.onLogOut}/>;
 
     return (
@@ -59,6 +60,7 @@ class App extends Component {
             <AuthenticationComponent>
               <Route exact path="/" component={Home} />
               <Route path="/suppliers" component={Suppliers} />
+              <Route path="/components" component={Components} />
             </AuthenticationComponent>
             <Route component={PageNotFound} />
           </Switch>   

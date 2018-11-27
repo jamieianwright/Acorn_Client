@@ -40,6 +40,9 @@ export class NavBarUI extends Component {
                             <NavItem>
                                 <Link className='nav-link' to='/suppliers'>Suppliers</Link>
                             </NavItem>
+                            <NavItem>
+                                <Link className='nav-link' to='/components'>Components</Link>
+                            </NavItem>
                         </Nav>
                         <Nav className="ml-auto">
                             {AuthenticationNav}
@@ -53,7 +56,7 @@ export class NavBarUI extends Component {
 
 const LogOut = (props) => (
     <NavItem >
-        <Link onClick={() => props.onLogOut()} to='/'>Log Out</Link>
+        <Link onClick={() => props.onLogOut()} to='/login'>Log Out</Link>
     </NavItem>
 )
 

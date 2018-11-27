@@ -3,7 +3,7 @@ import { Container, Table, Button, Input, Badge, InputGroup, InputGroupAddon, In
 import Supplier from './Supplier';
 import SuppliersModal from './SuppliersModal';
 import './Suppliers.css';
-import Breadcrumb from '../BreadcrumbUI';
+import Breadcrumb from '../UIcomponents/BreadcrumbUI';
 import _ from 'lodash';
 
 class Suppliers extends Component {
