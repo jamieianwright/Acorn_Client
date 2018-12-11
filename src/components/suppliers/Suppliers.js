@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Container, Table, Button, Input, Badge, InputGroup, InputGroupAddon, InputGroupText } from 'reactstrap';
+import { Container, Table, Input, Badge, InputGroup, InputGroupAddon, InputGroupText } from 'reactstrap';
 import Supplier from './Supplier';
 import SuppliersModal from './SuppliersModal';
 import './Suppliers.css';
@@ -13,7 +13,6 @@ class Suppliers extends Component {
       suppliers: [],
       filteredSuppliers: [],
       isLoaded: true,
-      modalVisible: false,
       desc: false,
       search: ''
     }
@@ -40,12 +39,6 @@ class Suppliers extends Component {
         })
       })
       .then(() => this.handleSortTable())
-  }
-
-  toggleModal() {
-    this.setState({
-      modalVisible: !this.state.modalVisible
-    });
   }
 
   handleChange(e) {
@@ -86,8 +79,7 @@ class Suppliers extends Component {
         <h1>Suppliers</h1>
         <div className='control-bar'>
         <Breadcrumb location={this.props.location} />
-        <Button className='' color="danger" onClick={() => this.toggleModal()}>Add New Supplier</Button>
-        <SuppliersModal modalVisible={this.state.modalVisible} {...this.props} toggleModal={this.toggleModal} getSuppliers={this.getSuppliers} crud='create'/>
+        <SuppliersModal getSuppliers={this.getSuppliers} crud='create'/>
         <InputGroup className='search-bar'>
           <InputGroupAddon addonType="prepend">
             <InputGroupText>Search for Supplier</InputGroupText>

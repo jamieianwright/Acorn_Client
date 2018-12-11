@@ -49,8 +49,7 @@ class Supplier extends Component {
                 <th><ButtonDropdown isOpen={this.state.dropdownOpen} toggle={() => this.toggleDropDown()}>
                     <DropdownToggle caret>Modify</DropdownToggle>
                     <DropdownMenu>
-                        <DropdownItem onClick={() => this.toggleModal()}>Edit</DropdownItem>
-                        <SuppliersModal modalVisible={this.state.modalVisible} {...this.props} toggleModal={this.toggleModal} crud='update'/>
+                        <SuppliersModal {...this.props} crud='update'/>
                         <DropdownItem divider />
                         <Modal isOpen={this.state.deleteModalVisible} toggle={() => this.toggleDeleteModal()} className={this.props.className}>
                             <ModalHeader>Delete Supplier</ModalHeader>
