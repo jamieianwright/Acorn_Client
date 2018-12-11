@@ -1,11 +1,5 @@
 import React, {Component} from 'react'
-import {
-    Container,
-    Table,
-    Pagination,
-    PaginationItem,
-    PaginationLink,
-} from 'reactstrap';
+import {Container, Table, Pagination, PaginationItem, PaginationLink} from 'reactstrap';
 import Breadcrumb from '../UIcomponents/BreadcrumbUI';
 import './components.css';
 import ComponentItem from './ComponentItem';
@@ -17,17 +11,11 @@ export class Components extends Component {
         this.state = {
             componentItems: [],
             pagination: {},
-            page: 1,
-            modalVisible: false
+            page: 1
         }
         this.getComponentItems = this
             .getComponentItems
             .bind(this);
-
-        this.toggleModal = this
-            .toggleModal
-            .bind(this);
-
     }
 
     componentWillMount() {
@@ -67,12 +55,6 @@ export class Components extends Component {
         }, this.getComponentItems)
     }
 
-    toggleModal() {
-        this.setState({
-            modalVisible: !this.state.modalVisible
-        });
-    }
-
     render() {
 
         const componentRows = this
@@ -99,7 +81,7 @@ export class Components extends Component {
                 : null}>
                 <PaginationLink onClick={() => this.onPageChange(obj.page)}>
                     {obj.page}</PaginationLink>
-                </PaginationItem>
+            </PaginationItem>
         })
 
         return (
@@ -107,9 +89,7 @@ export class Components extends Component {
                 <h1>Components</h1>
                 <div className='control-bar'>
                     <Breadcrumb location={this.props.location}/>
-                    <ComponentsModal
-                        getComponentItems={this.getComponentItems}
-                        crud='create'/>
+                    <ComponentsModal getComponentItems={this.getComponentItems} crud='create'/>
                 </div>
                 <Table>
                     <thead>
