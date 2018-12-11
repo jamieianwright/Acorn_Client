@@ -59,10 +59,19 @@ class SuppliersModal extends Component {
                     })
                 } else {
                     this.props.getSuppliers();
-                    this.props.toggleModal();
+                    this.onToggleModal();
                 } 
             })
         }
+    }
+
+    onToggleModal(){
+        this.setState({
+            name: this.props.name || '',
+            phone_number: this.props.phone_number || '',
+            website: this.props.website || '',
+            email: this.props.email || '',
+          }, this.props.toggleModal)
     }
 
     onDismissAlert(){
@@ -74,12 +83,11 @@ class SuppliersModal extends Component {
 
     render() {
 
-        const modalTitle = (this.props.crud === 'create') ? 'Add New Supplier' : `Edit supplier: ${this.state.name}`;
+        const modalTitle = (this.props.crud === 'create') ? 'Add New Supplier' : `Edit supplier: ${this.props.name}`;
 
         return (
-
-                <Modal isOpen={this.props.modalVisible} toggle={() => this.props.toggleModal()} >
-                    <ModalHeader toggle={() => this.props.toggleModal()}>{modalTitle}</ModalHeader>
+                <Modal isOpen={this.props.modalVisible} toggle={() => this.onToggleModal()} >
+                    <ModalHeader toggle={() => this.onToggleModal()}>{modalTitle}</ModalHeader>
                     <ModalBody>
                         <Alert color="danger" isOpen={this.state.alertVisible} toggle={() => this.onDismissAlert()}>
                             {this.state.alertMessage}
@@ -105,7 +113,7 @@ class SuppliersModal extends Component {
                     </ModalBody>
                     <ModalFooter>
                         <Button color="primary" onClick={() => this.handleSubmit()}>Submit</Button>
-                        <Button color="secondary" onClick={() => this.props.toggleModal()}>Cancel</Button>
+                        <Button color="secondary" onClick={() => this.onToggleModal()}>Cancel</Button>
                     </ModalFooter>
                 </Modal>
         );
