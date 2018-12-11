@@ -5,7 +5,6 @@ import {
     Pagination,
     PaginationItem,
     PaginationLink,
-    Button
 } from 'reactstrap';
 import Breadcrumb from '../UIcomponents/BreadcrumbUI';
 import './components.css';
@@ -100,7 +99,7 @@ export class Components extends Component {
                 : null}>
                 <PaginationLink onClick={() => this.onPageChange(obj.page)}>
                     {obj.page}</PaginationLink>
-            </PaginationItem>
+                </PaginationItem>
         })
 
         return (
@@ -108,11 +107,7 @@ export class Components extends Component {
                 <h1>Components</h1>
                 <div className='control-bar'>
                     <Breadcrumb location={this.props.location}/>
-                    <Button className='' color="danger" onClick={() => this.toggleModal()}>Add New Component</Button>
                     <ComponentsModal
-                        modalVisible={this.state.modalVisible}
-                        {...this.props}
-                        toggleModal={this.toggleModal}
                         getComponentItems={this.getComponentItems}
                         crud='create'/>
                 </div>

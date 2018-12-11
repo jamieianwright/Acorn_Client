@@ -65,8 +65,8 @@ class App extends Component {
             <Route component={PageNotFound} />
           </Switch>   
       </main>
-    </div>
-    </BrowserRouter>
+      </div>
+      </BrowserRouter>
     );
   }
 }

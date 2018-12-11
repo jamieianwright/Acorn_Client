@@ -16,6 +16,7 @@ export default class ComponentsModal extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            modalVisible: false,
             name: '',
             price: '',
             description: '',
@@ -78,20 +79,21 @@ export default class ComponentsModal extends Component {
                         this
                             .props
                             .getComponentItems();
-                        this.onToggleModal();
+                        this.toggleModal();
                     }
                 })
         }
     }
 
-    onToggleModal() {
+    toggleModal() {
         this.setState({
+            modalVisible: !this.state.modalVisible,
             name: this.props.name || '',
             price: this.props.price || '',
             description: this.props.description || '',
             lead_time: this.props.lead_time || '',
             min_order_quantity: this.props.min_order_quantity || ''
-        }, this.props.toggleModal)
+        });
     }
 
     render() {
@@ -100,82 +102,86 @@ export default class ComponentsModal extends Component {
             : `Edit component: ${this.state.name}`;
 
         return (
-            <Modal isOpen={this.props.modalVisible} toggle={() => this.onToggleModal()}>
-                <ModalHeader toggle={() => this.onToggleModal()}>{modalTitle}</ModalHeader>
-                <ModalBody>
-                    <Alert
-                        color="danger"
-                        isOpen={this.state.alertVisible}
-                        toggle={() => this.onDismissAlert()}>
-                        {this.state.alertMessage}
-                    </Alert>
-                    <Form>
-                        <FormGroup>
-                            <Label for='name'>Name</Label>
-                            <Input
-                                type="text"
-                                name="name"
-                                id="name"
-                                placeholder="Component Name"
-                                onChange={(e) => this.handleChange(e)}
-                                value={this.state.name}
-                                maxLength="255"/>
-                        </FormGroup>
-                        <FormGroup>
-                            <Label for='price'>Price</Label>
-                            <Input
-                                type="text"
-                                name="price"
-                                id="price"
-                                placeholder="Price"
-                                onChange={(e) => this.handleChange(e)}
-                                value={this.state.price}
-                                maxLength="255"
-                                required/>
-                        </FormGroup>
-                        <FormGroup>
-                            <Label for='description'>Description</Label>
-                            <Input
-                                type="text"
-                                name="description"
-                                id="description"
-                                placeholder="Component Description"
-                                onChange={(e) => this.handleChange(e)}
-                                value={this.state.website}
-                                maxLength="255"
-                                required/>
-                        </FormGroup>
-                        <FormGroup>
-                            <Label for='lead_time'>Lead Time</Label>
-                            <Input
-                                type="text"
-                                name="lead_time"
-                                id="lead_time"
-                                placeholder="Component Lead Time"
-                                onChange={(e) => this.handleChange(e)}
-                                value={this.state.email}
-                                maxLength="255"
-                                required/>
-                        </FormGroup>
-                        <FormGroup>
-                            <Label for='min_order_quantity'>Min Order Quantity</Label>
-                            <Input
-                                type="text"
-                                name="min_order_quantity"
-                                id="min_order_quantity"
-                                placeholder="Component Minimum Order quantity"
-                                onChange={(e) => this.handleChange(e)}
-                                value={this.state.email}
-                                maxLength="255"
-                                required/>
-                        </FormGroup>
-                    </Form>
-                </ModalBody>
-                <ModalFooter>
-                    <Button color="primary" onClick={() => this.handleSubmit()}>Submit</Button>
-                    <Button color="secondary" onClick={() => this.onToggleModal()}>Cancel</Button>
-                </ModalFooter>
-            </Modal>
+            <div>
+                <Button className='' color="danger" onClick={() => this.toggleModal()}>Add New Component</Button>
+                <Modal isOpen={this.state.modalVisible} toggle={() => this.toggleModal()}>
+                    <ModalHeader toggle={() => this.toggleModal()}>{modalTitle}</ModalHeader>
+                    <ModalBody>
+                        <Alert
+                            color="danger"
+                            isOpen={this.state.alertVisible}
+                            toggle={() => this.onDismissAlert()}>
+                            {this.state.alertMessage}
+                        </Alert>
+                        <Form>
+                            <FormGroup>
+                                <Label for='name'>Name</Label>
+                                <Input
+                                    type="text"
+                                    name="name"
+                                    id="name"
+                                    placeholder="Component Name"
+                                    onChange={(e) => this.handleChange(e)}
+                                    value={this.state.name}
+                                    maxLength="255"/>
+                            </FormGroup>
+                            <FormGroup>
+                                <Label for='price'>Price</Label>
+                                <Input
+                                    type="text"
+                                    name="price"
+                                    id="price"
+                                    placeholder="Price"
+                                    onChange={(e) => this.handleChange(e)}
+                                    value={this.state.price}
+                                    maxLength="255"
+                                    required/>
+                            </FormGroup>
+                            <FormGroup>
+                                <Label for='description'>Description</Label>
+                                <Input
+                                    type="text"
+                                    name="description"
+                                    id="description"
+                                    placeholder="Component Description"
+                                    onChange={(e) => this.handleChange(e)}
+                                    value={this.state.website}
+                                    maxLength="255"
+                                    required/>
+                            </FormGroup>
+                            <FormGroup>
+                                <Label for='lead_time'>Lead Time</Label>
+                                <Input
+                                    type="text"
+                                    name="lead_time"
+                                    id="lead_time"
+                                    placeholder="Component Lead Time"
+                                    onChange={(e) => this.handleChange(e)}
+                                    value={this.state.email}
+                                    maxLength="255"
+                                    required/>
+                            </FormGroup>
+                            <FormGroup>
+                                <Label for='min_order_quantity'>Min Order Quantity</Label>
+                                <Input
+                                    type="text"
+                                    name="min_order_quantity"
+                                    id="min_order_quantity"
+                                    placeholder="Component Minimum Order quantity"
+                                    onChange={(e) => this.handleChange(e)}
+                                    value={this.state.email}
+                                    maxLength="255"
+                                    required/>
+                            </FormGroup>
+                        </Form>
+                    </ModalBody>
+                    <ModalFooter>
+                        <Button color="primary" onClick={() => this.handleSubmit()}>Submit</Button>
+                        <Button color="secondary" onClick={() => this.toggleModal()}>Cancel</Button>
+                    </ModalFooter>
+                </Modal>
+            </div>
+
         );
     }
 }
