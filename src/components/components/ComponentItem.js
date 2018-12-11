@@ -9,6 +9,7 @@ export class ComponentItem extends Component {
           <th>{this.props.description}</th>
           <th>{this.props.lead_time} days</th>
           <th>{this.props.min_order_quantity}</th>
+          <th></th>
         </tr>
     )
   }

@@ -1,8 +1,16 @@
 import React, {Component} from 'react'
-import {Container, Table, Pagination, PaginationItem, PaginationLink} from 'reactstrap';
+import {
+    Container,
+    Table,
+    Pagination,
+    PaginationItem,
+    PaginationLink,
+    Button
+} from 'reactstrap';
 import Breadcrumb from '../UIcomponents/BreadcrumbUI';
 import './components.css';
 import ComponentItem from './ComponentItem';
+import ComponentsModal from './ComponentsModal';
 
 export class Components extends Component {
     constructor(props) {
@@ -10,11 +18,17 @@ export class Components extends Component {
         this.state = {
             componentItems: [],
             pagination: {},
-            page: 1
+            page: 1,
+            modalVisible: false
         }
         this.getComponentItems = this
             .getComponentItems
             .bind(this);
+
+        this.toggleModal = this
+            .toggleModal
+            .bind(this);
+
     }
 
     componentWillMount() {
@@ -54,6 +68,12 @@ export class Components extends Component {
         }, this.getComponentItems)
     }
 
+    toggleModal() {
+        this.setState({
+            modalVisible: !this.state.modalVisible
+        });
+    }
+
     render() {
 
         const componentRows = this
@@ -63,17 +83,24 @@ export class Components extends Component {
                 return <ComponentItem
                     key={i}
                     {...componentItem}
-                    getSuppliers={this.getComponentItems}/>
+                    getComponentItems={this.getComponentItems}/>
             })
 
         let paginationItems = []
-        for(let i=Math.max(this.state.page-6, 0); i < Math.min(this.state.page +5, this.state.pagination.pageCount); i++){
-            paginationItems.push({ page: i+1 })
+        for (let i = Math.max(this.state.page - 6, 0); i < Math.min(this.state.page + 5, this.state.pagination.pageCount); i++) {
+            paginationItems.push({
+                page: i + 1
+            })
         }
         paginationItems = paginationItems.map((obj, i) => {
-            return <PaginationItem key={i} className={(this.state.page === obj.page) ? 'active' : null}>
-                        <PaginationLink  onClick={() => this.onPageChange(obj.page)}> {obj.page}</PaginationLink>
-                    </PaginationItem>
+            return <PaginationItem
+                key={i}
+                className={(this.state.page === obj.page)
+                ? 'active'
+                : null}>
+                <PaginationLink onClick={() => this.onPageChange(obj.page)}>
+                    {obj.page}</PaginationLink>
+            </PaginationItem>
         })
 
         return (
@@ -81,6 +108,13 @@ export class Components extends Component {
                 <h1>Components</h1>
                 <div className='control-bar'>
                     <Breadcrumb location={this.props.location}/>
+                    <Button className='' color="danger" onClick={() => this.toggleModal()}>Add New Component</Button>
+                    <ComponentsModal
+                        modalVisible={this.state.modalVisible}
+                        {...this.props}
+                        toggleModal={this.toggleModal}
+                        getComponentItems={this.getComponentItems}
+                        crud='create'/>
                 </div>
                 <Table>
                     <thead>
@@ -89,7 +123,7 @@ export class Components extends Component {
                             <th>Price</th>
                             <th>Description</th>
                             <th>Lead Time</th>
-                            <th>Minimum Order Quantity</th>
+                            <th>Min Order Quantity</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -102,13 +136,13 @@ export class Components extends Component {
                         <PaginationItem>
                             <PaginationLink previous onClick={() => this.onPageChange('previous')}/>
                         </PaginationItem>
-                            {paginationItems}
+                        {paginationItems}
                         <PaginationItem>
                             <PaginationLink next onClick={() => this.onPageChange('next')}/>
                         </PaginationItem>
                     </Pagination>
                 </div>
-                
+
             </Container>
 
         )
