@@ -18,7 +18,6 @@ class Suppliers extends Component {
     }
     this.getSuppliers = this.getSuppliers.bind(this);
     this.handleSortTable = this.handleSortTable.bind(this);
-    this.toggleModal = this.toggleModal.bind(this)
   }
 
   componentWillMount(){
