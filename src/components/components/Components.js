@@ -1,5 +1,15 @@
 import React, {Component} from 'react'
-import {Container, Table, Pagination, PaginationItem, PaginationLink} from 'reactstrap';
+import {
+    Container,
+    Table,
+    Pagination,
+    PaginationItem,
+    PaginationLink,
+    Input,
+    InputGroup,
+    InputGroupAddon,
+    InputGroupText
+} from 'reactstrap';
 import Breadcrumb from '../UIcomponents/BreadcrumbUI';
 import './components.css';
 import ComponentItem from './ComponentItem';
@@ -11,7 +21,8 @@ export class Components extends Component {
         this.state = {
             componentItems: [],
             pagination: {},
-            page: 1
+            page: 1,
+            search: ''
         }
         this.getComponentItems = this
             .getComponentItems
@@ -25,7 +36,7 @@ export class Components extends Component {
     getComponentItems() {
         this.setState({isLoaded: false})
 
-        fetch(`${process.env.REACT_APP_API_BASE_URL}components?page=${this.state.page}&pageSize=10`)
+        fetch(`${process.env.REACT_APP_API_BASE_URL}components?page=${this.state.page}&pageSize=10&search=${this.state.search}`)
             .then(res => res.json())
             .then(result => {
                 this.setState({componentItems: result.components, pagination: result.pagination, isLoaded: true})
@@ -53,6 +64,12 @@ export class Components extends Component {
         this.setState({
             page: newPage
         }, this.getComponentItems)
+    }
+
+    handleChange(e) {
+        this.setState({
+            [e.target.name]: e.target.value
+        }, this.getComponentItems);
     }
 
     render() {
@@ -90,6 +107,15 @@ export class Components extends Component {
                 <div className='control-bar'>
                     <Breadcrumb location={this.props.location}/>
                     <ComponentsModal getComponentItems={this.getComponentItems} crud='create'/>
+                    <InputGroup className='search-bar'>
+                        <InputGroupAddon addonType="prepend">
+                            <InputGroupText>Search for Supplier</InputGroupText>
+                        </InputGroupAddon>
+                        <Input
+                            name='search'
+                            value={this.state.search}
+                            onChange={(e) => this.handleChange(e)}/>
+                    </InputGroup>
                 </div>
                 <Table>
                     <thead>
@@ -117,9 +143,7 @@ export class Components extends Component {
                         </PaginationItem>
                     </Pagination>
                 </div>
-
             </Container>
-
         )
     }
 }
