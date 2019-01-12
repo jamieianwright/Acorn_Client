@@ -41,7 +41,6 @@ export class Components extends Component {
             .then(result => {
                 this.setState({componentItems: result.components, pagination: result.pagination, isLoaded: true})
             })
-            .then(() => this.handleSortTable())
     }
 
     onPageChange(increment) {
