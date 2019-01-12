@@ -132,8 +132,6 @@ export default class ComponentsModal extends Component {
                 })
             : null;
 
-        console.log(this.state)
-
         return (
             <div>
                 <Button className='' color="danger" onClick={() => this.toggleModal()}>Add New Component</Button>
