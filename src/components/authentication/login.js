@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import {withRouter} from 'react-router-dom';
+import { Alert } from 'reactstrap';
 import axios from 'axios';
 import './login.css';
 
@@ -9,8 +10,16 @@ class Login extends Component {
 
         this.state = {
             email: '',
-            password: ''
+            password: '',
+            alertVisible: false,
+            alertMessage: ''
         };
+    }
+
+    onDismissAlert() {
+        this.setState({
+            alertVisible: !this.state.alertVisible
+        })
     }
 
     change(e) {
@@ -33,6 +42,9 @@ class Login extends Component {
                     .onLogIn(localStorage.getItem('login-jwt'))
             })
             .then(() => this.props.history.go(-2))
+            .catch(
+                this.setState({alertVisible: true, alertMessage: `Either Email and/or Password are incorrect`})
+            )
     }
 
     render() {
@@ -40,9 +52,13 @@ class Login extends Component {
         return (
             <div id='login-background'>
                 <div className='wrap-login'>
-                    <span className='login-title'>Welcome</span>
-                    <span className='login-title'>to</span>
-                    <img className='login-logo' src={require('./logo.png')} alt='acorn logo' ></img>
+                    <img className='login-logo' src={require('./logo.png')} alt='acorn logo'></img>
+                    <Alert
+                        color="danger"
+                        isOpen={this.state.alertVisible}
+                        toggle={() => this.onDismissAlert()}>
+                        {this.state.alertMessage}
+                    </Alert>
                     <form onSubmit={e => this.submit(e)} className='form-group login-form'>
                         <div className="form-group">
                             <label>Email</label>
