@@ -3,7 +3,6 @@ import { truncateString } from '../../utils.js';
 
 export class ComponentItem extends Component {
   render() {
-    console.log(this.props)
     return (
         <tr>
           <th>{truncateString(this.props.name)}</th>
