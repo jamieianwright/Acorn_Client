@@ -33,7 +33,6 @@ class App extends Component {
   }
 
   onLogOut(){
-    console.log('Logged Out')
     localStorage.removeItem('login-jwt');
     this.setState({
       login_jwt: undefined
