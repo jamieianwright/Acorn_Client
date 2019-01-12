@@ -43,9 +43,9 @@ class Supplier extends Component {
         return (
             <tr>
                 <th>{truncateString(this.props.name)}</th>
-                <th>{this.props.phone_number}</th>
-                <th>{this.props.website}</th>
-                <th>{this.props.email}</th>
+                <th>{truncateString(this.props.phone_number, 11)}</th>
+                <th>{truncateString(this.props.website)}</th>
+                <th>{truncateString(this.props.email)}</th>
                 <th><ButtonDropdown isOpen={this.state.dropdownOpen} toggle={() => this.toggleDropDown()}>
                     <DropdownToggle caret>Modify</DropdownToggle>
                     <DropdownMenu>

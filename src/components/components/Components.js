@@ -101,6 +101,7 @@ export class Components extends Component {
                             <th>Description</th>
                             <th>Lead Time</th>
                             <th>Min Order Quantity</th>
+                            <th>Supplier</th>
                             <th>Action</th>
                         </tr>
                     </thead>
