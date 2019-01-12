@@ -22,8 +22,12 @@ export default class ComponentsModal extends Component {
             description: '',
             lead_time: '',
             min_order_quantity: '',
+            supplier_id: '',
             alertVisible: false,
-            alertMessage: ''
+            alertMessage: '',
+            suppliers: [],
+            supplierSearch: '',
+            alertSupplierVisible: false
         }
     }
 
@@ -37,6 +41,22 @@ export default class ComponentsModal extends Component {
         this.setState({
             [e.target.name]: e.target.value
         });
+    }
+
+    supplierSearch(e) {
+        this.setState({
+            [e.target.name]: e.target.value
+        });
+        e.persist()
+        fetch(process.env.REACT_APP_API_BASE_URL + `suppliers/?pageSize=3&page=1&search=${e.target.value}`)
+            .then(res => res.json())
+            .then(result => {
+                if(result.suppliers === undefined || result.suppliers.length === 0 || e.target.value === ''){
+                    this.setState({suppliers: [], alertSupplierVisible: true})
+                } else {
+                    this.setState({suppliers: result.suppliers, alertSupplierVisible: false})
+                }
+            })
     }
 
     onDismissAlert() {
@@ -67,7 +87,7 @@ export default class ComponentsModal extends Component {
                         description: this.state.description,
                         lead_time: this.state.lead_time,
                         min_order_quantity: this.state.min_order_quantity,
-                        supplier_id: 1
+                        supplier_id: this.state.supplier_id
                     })
                 })
                 .then(res => res.json())
@@ -91,7 +111,10 @@ export default class ComponentsModal extends Component {
             price: this.props.price || '',
             description: this.props.description || '',
             lead_time: this.props.lead_time || '',
-            min_order_quantity: this.props.min_order_quantity || ''
+            min_order_quantity: this.props.min_order_quantity || '',
+            suppliers: [],
+            supplierSearch: '',
+            alertSupplierVisible: false
         });
     }
 
@@ -99,6 +122,17 @@ export default class ComponentsModal extends Component {
         const modalTitle = (this.props.crud === 'create')
             ? 'Add New Component'
             : `Edit component: ${this.state.name}`;
+
+        const suppliers = (this.state.suppliers)
+            ? this
+                .state
+                .suppliers
+                .map((supplier, i) => {
+                    return <Button color="primary" size="lg" key={i} onClick={() => this.setState({supplier_id: supplier.id})} block>{supplier.name}</Button>
+                })
+            : null;
+
+        console.log(this.state)
 
         return (
             <div>
@@ -172,6 +206,23 @@ export default class ComponentsModal extends Component {
                                     maxLength="255"
                                     required/>
                             </FormGroup>
+                            <FormGroup>
+                                <Label for='supplierSearch'>Supplier</Label>
+                                <Input
+                                    type="text"
+                                    name="supplierSearch"
+                                    id="supplierSearch"
+                                    placeholder="Search for the supplier of this component"
+                                    maxLength="255"
+                                    value={this.state.supplierSearch}
+                                    onChange={(e) => this.supplierSearch(e)}/>
+                            </FormGroup>
+                            <FormGroup>
+                                {suppliers}
+                            </FormGroup>
+                            <Alert color="danger" isOpen={this.state.alertSupplierVisible}>
+                                {'No suppliers match your search :('}
+                            </Alert>
                         </Form>
                     </ModalBody>
                     <ModalFooter>
