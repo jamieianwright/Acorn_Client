@@ -1,4 +1,4 @@
-import React, {Component} from 'react'
+import React, { Component } from 'react'
 import {
     Container,
     Table,
@@ -14,6 +14,7 @@ import Breadcrumb from '../UIcomponents/BreadcrumbUI';
 import './components.css';
 import ComponentItem from './ComponentItem';
 import ComponentsModal from './ComponentsModal';
+import PaginationUI from '../UIcomponents/PaginationUI';
 
 export class Components extends Component {
     constructor(props) {
@@ -34,34 +35,18 @@ export class Components extends Component {
     }
 
     getComponentItems() {
-        this.setState({isLoaded: false})
+        this.setState({ isLoaded: false })
 
         fetch(`${process.env.REACT_APP_API_BASE_URL}components?page=${this.state.page}&pageSize=10&search=${this.state.search}`)
             .then(res => res.json())
             .then(result => {
-                this.setState({componentItems: result.components, pagination: result.pagination, isLoaded: true})
+                this.setState({ componentItems: result.components, pagination: result.pagination, isLoaded: true });
             })
     }
 
     onPageChange(increment) {
-        let newPage
-        if (typeof increment === 'string') {
-            if (increment === 'next') {
-                (this.state.page < this.state.pagination.pageCount)
-                    ? newPage = this.state.page + 1
-                    : newPage = this.state.pagination.pageCount;
-            }
-            if (increment === 'previous') {
-                (this.state.page > 1)
-                    ? newPage = this.state.page - 1
-                    : newPage = 1;
-            }
-        } else {
-            newPage = increment;
-        }
-
         this.setState({
-            page: newPage
+            page: increment
         }, this.getComponentItems)
     }
 
@@ -72,7 +57,6 @@ export class Components extends Component {
     }
 
     render() {
-
         const componentRows = this
             .state
             .componentItems
@@ -80,32 +64,25 @@ export class Components extends Component {
                 return <ComponentItem
                     key={i}
                     {...componentItem}
-                    getComponentItems={this.getComponentItems}/>
+                    getComponentItems={this.getComponentItems} />
             })
-
-        let paginationItems = []
-        for (let i = Math.max(this.state.page - 6, 0); i < Math.min(this.state.page + 5, this.state.pagination.pageCount); i++) {
-            paginationItems.push({
-                page: i + 1
-            })
+            
+        let pagination = null;
+        if (componentRows.length > 0) {
+            pagination = (<div className="justify-content-center">
+                <PaginationUI
+                    currentPage={this.state.page}
+                    maxPages={this.state.pagination.pageCount}
+                    onPageChange={(page) => this.onPageChange(page)} />
+            </div>)
         }
-        paginationItems = paginationItems.map((obj, i) => {
-            return <PaginationItem
-                key={i}
-                className={(this.state.page === obj.page)
-                ? 'active'
-                : null}>
-                <PaginationLink onClick={() => this.onPageChange(obj.page)}>
-                    {obj.page}</PaginationLink>
-            </PaginationItem>
-        })
 
         return (
             <Container>
                 <h1>Components</h1>
                 <div className='control-bar'>
-                    <Breadcrumb location={this.props.location}/>
-                    <ComponentsModal getComponentItems={this.getComponentItems} crud='create'/>
+                    <Breadcrumb location={this.props.location} />
+                    <ComponentsModal getComponentItems={this.getComponentItems} crud='create' />
                     <InputGroup className='search-bar'>
                         <InputGroupAddon addonType="prepend">
                             <InputGroupText>Search for Supplier</InputGroupText>
@@ -113,7 +90,7 @@ export class Components extends Component {
                         <Input
                             name='search'
                             value={this.state.search}
-                            onChange={(e) => this.handleChange(e)}/>
+                            onChange={(e) => this.handleChange(e)} />
                     </InputGroup>
                 </div>
                 <Table>
@@ -128,20 +105,10 @@ export class Components extends Component {
                         </tr>
                     </thead>
                     <tbody>
-                        {componentRows}
+                        {componentRows.length != 0 ? componentRows : <tr><th>No Records match your search criteria :'(</th></tr>}
                     </tbody>
                 </Table>
-                <div className="justify-content-center">
-                    <Pagination >
-                        <PaginationItem>
-                            <PaginationLink previous onClick={() => this.onPageChange('previous')}/>
-                        </PaginationItem>
-                        {paginationItems}
-                        <PaginationItem>
-                            <PaginationLink next onClick={() => this.onPageChange('next')}/>
-                        </PaginationItem>
-                    </Pagination>
-                </div>
+                {pagination}
             </Container>
         )
     }
