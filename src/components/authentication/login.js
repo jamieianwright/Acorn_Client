@@ -18,7 +18,8 @@ class Login extends Component {
 
     onDismissAlert() {
         this.setState({
-            alertVisible: !this.state.alertVisible
+            alertVisible: !this.state.alertVisible,
+            alertMessage: ``
         })
     }
 
@@ -30,6 +31,7 @@ class Login extends Component {
 
     submit(e) {
         e.preventDefault();
+        this.setState({alertVisible: false, alertMessage: ``})
         axios
             .post(process.env.REACT_APP_API_BASE_URL + 'login', {
             email: this.state.email,
