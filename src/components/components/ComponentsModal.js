@@ -49,7 +49,6 @@ export default class ComponentsModal extends Component {
         if (!this.state.name || !this.state.price || !this.state.description || !this.state.lead_time || !this.state.min_order_quantity) {
             this.setState({alertVisible: true, alertMessage: 'You must include all details about the component.'})
         } else {
-            console.log('Hit Submit')
             const method = (this.props.crud === 'create')
                 ? 'POST'
                 : 'PUT';
