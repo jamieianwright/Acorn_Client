@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { ButtonDropdown, DropdownToggle, DropdownMenu, DropdownItem, Button, Modal, ModalBody, ModalHeader, ModalFooter } from 'reactstrap';
+import { ButtonGroup, DropdownToggle, DropdownMenu, DropdownItem, Button, Modal, ModalBody, ModalHeader, ModalFooter } from 'reactstrap';
 import { truncateString } from '../../utils.js';
 import SuppliersModal from './SuppliersModal';
 
@@ -11,18 +11,11 @@ class Supplier extends Component {
             deleteModalVisible: false,
             modalVisible: false,
         }
-        this.toggleModal = this.toggleModal.bind(this)
     }
 
     toggleDropDown() {
         this.setState({
             dropdownOpen: !this.state.dropdownOpen,
-        });
-    }
-
-    toggleModal() {
-        this.setState({
-            modalVisible: !this.state.modalVisible,
         });
     }
 
@@ -46,24 +39,21 @@ class Supplier extends Component {
                 <th>{truncateString(this.props.phone_number, 11)}</th>
                 <th>{truncateString(this.props.website)}</th>
                 <th>{truncateString(this.props.email)}</th>
-                <th><ButtonDropdown isOpen={this.state.dropdownOpen} toggle={() => this.toggleDropDown()}>
-                    <DropdownToggle caret>Modify</DropdownToggle>
-                    <DropdownMenu>
-                        <SuppliersModal {...this.props} crud='update'/>
-                        <DropdownItem divider />
-                        <Modal isOpen={this.state.deleteModalVisible} toggle={() => this.toggleDeleteModal()} className={this.props.className}>
-                            <ModalHeader>Delete Supplier</ModalHeader>
-                            <ModalBody>
-                                Are you sure you wish to remove this supplier? This will also remove all related components.
-                            </ModalBody>
-                            <ModalFooter>
-                                <Button color="primary" onClick={() => this.handleDeleteSupplier()}>Yes</Button>
-                                <Button color="secondary" onClick={() => this.toggleDeleteModal()}>Cancel</Button>
-                            </ModalFooter>
-                        </Modal>
-                        <DropdownItem onClick={() => this.toggleDeleteModal()}>Delete</DropdownItem>
-                    </DropdownMenu>
-                </ButtonDropdown>
+                <th>
+                <ButtonGroup>
+                    <SuppliersModal crud='update'/>
+                    <Modal isOpen={this.state.deleteModalVisible} toggle={() => this.toggleDeleteModal()} className={this.props.className}>
+                        <ModalHeader>Delete Supplier</ModalHeader>
+                        <ModalBody>
+                            Are you sure you wish to remove this supplier? This will also remove all related components.
+                        </ModalBody>
+                        <ModalFooter>
+                            <Button color="danger" onClick={() => this.handleDeleteSupplier()}>Yes</Button>
+                            <Button color="secondary" onClick={() => this.toggleDeleteModal()}>Cancel</Button>
+                        </ModalFooter>
+                    </Modal>
+                    <Button color="danger" onClick={() => this.toggleDeleteModal()}>Delete</Button>
+                </ButtonGroup>
                 </th>
             </tr>
         );
