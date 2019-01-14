@@ -23,6 +23,7 @@ export default class ComponentsModal extends Component {
             lead_time: '',
             min_order_quantity: '',
             supplier_id: '',
+            supplierName: '',
             alertVisible: false,
             alertMessage: '',
             suppliers: [],
@@ -51,7 +52,7 @@ export default class ComponentsModal extends Component {
         fetch(process.env.REACT_APP_API_BASE_URL + `suppliers/?pageSize=3&page=1&search=${e.target.value}`)
             .then(res => res.json())
             .then(result => {
-                if(result.suppliers === undefined || result.suppliers.length === 0 || e.target.value === ''){
+                if (result.suppliers === undefined || result.suppliers.length === 0 || e.target.value === '') {
                     this.setState({suppliers: [], alertSupplierVisible: true})
                 } else {
                     this.setState({suppliers: result.suppliers, alertSupplierVisible: false})
@@ -123,13 +124,37 @@ export default class ComponentsModal extends Component {
             ? 'Add New Component'
             : `Edit component: ${this.state.name}`;
 
-        const suppliers = (this.state.suppliers)
+        const supplierSearch = (!this.state.supplier_id)
+            ? <Input
+                    type="text"
+                    name="supplierSearch"
+                    id="supplierSearch"
+                    placeholder="Search for the supplier of this component"
+                    maxLength="255"
+                    value={this.state.supplierSearch}
+                    onChange={(e) => this.supplierSearch(e)}/>
+            : null;
+
+        const supplierChoices = (this.state.suppliers)
             ? this
                 .state
                 .suppliers
                 .map((supplier, i) => {
-                    return <Button color="primary" size="lg" key={i} onClick={() => this.setState({supplier_id: supplier.id})} block>{supplier.name}</Button>
+                    return <Button
+                        color="info"
+                        size="lg"
+                        key={i}
+                        onClick={() => this.setState({supplier_id: supplier.id, supplierName: supplier.name, suppliers: []})}
+                        block>{supplier.name}</Button>
                 })
+            : null;
+
+        const selectedSupplier = (this.state.supplierName)
+            ? <Button
+                    color="success"
+                    size="lg"
+                    onClick={() => this.setState({supplier_id: '', supplierName: ''})}
+                    block>{this.state.supplierName}</Button>
             : null;
 
         return (
@@ -206,17 +231,11 @@ export default class ComponentsModal extends Component {
                             </FormGroup>
                             <FormGroup>
                                 <Label for='supplierSearch'>Supplier</Label>
-                                <Input
-                                    type="text"
-                                    name="supplierSearch"
-                                    id="supplierSearch"
-                                    placeholder="Search for the supplier of this component"
-                                    maxLength="255"
-                                    value={this.state.supplierSearch}
-                                    onChange={(e) => this.supplierSearch(e)}/>
+                                {supplierSearch}
                             </FormGroup>
                             <FormGroup>
-                                {suppliers}
+                                {selectedSupplier}
+                                {supplierChoices}
                             </FormGroup>
                             <Alert color="danger" isOpen={this.state.alertSupplierVisible}>
                                 {'No suppliers match your search :('}
