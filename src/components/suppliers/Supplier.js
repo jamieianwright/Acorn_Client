@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { ButtonGroup, DropdownToggle, DropdownMenu, DropdownItem, Button, Modal, ModalBody, ModalHeader, ModalFooter } from 'reactstrap';
+import { ButtonGroup, Button, Modal, ModalBody, ModalHeader, ModalFooter } from 'reactstrap';
 import { truncateString } from '../../utils.js';
 import SuppliersModal from './SuppliersModal';
 

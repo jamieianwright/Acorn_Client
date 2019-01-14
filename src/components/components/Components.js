@@ -2,9 +2,6 @@ import React, { Component } from 'react'
 import {
     Container,
     Table,
-    Pagination,
-    PaginationItem,
-    PaginationLink,
     Input,
     InputGroup,
     InputGroupAddon,
@@ -106,7 +103,7 @@ export class Components extends Component {
                         </tr>
                     </thead>
                     <tbody>
-                        {componentRows.length != 0 ? componentRows : <tr><th>No Records match your search criteria :'(</th></tr>}
+                        {componentRows.length !== 0 ? componentRows : <tr><th>No Records match your search criteria :'(</th></tr>}
                     </tbody>
                 </Table>
                 {pagination}
