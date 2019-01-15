@@ -77,18 +77,21 @@ export class Components extends Component {
         return (
             <Container>
                 <h1>Components</h1>
-                <div className='control-bar'>
+                <div >
                     <Breadcrumb location={this.props.location} />
-                    <ComponentsModal getComponentItems={this.getComponentItems} crud='create' />
-                    <InputGroup className='search-bar'>
-                        <InputGroupAddon addonType="prepend">
-                            <InputGroupText>Search for Supplier</InputGroupText>
-                        </InputGroupAddon>
-                        <Input
-                            name='search'
-                            value={this.state.search}
-                            onChange={(e) => this.handleChange(e)} />
-                    </InputGroup>
+                    <div className='contol_bar'>
+                        <ComponentsModal getComponentItems={this.getComponentItems} crud='create' />
+                        <InputGroup className='search_bar'>
+                            <InputGroupAddon addonType="prepend">
+                                <InputGroupText>Search for Supplier</InputGroupText>
+                            </InputGroupAddon>
+                            <Input
+                                name='search'
+                                value={this.state.search}
+                                onChange={(e) => this.handleChange(e)} 
+                                />
+                        </InputGroup>
+                    </div>
                 </div>
                 <Table>
                     <thead>

@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { truncateString } from '../../utils.js';
+import ComponentsModal from './ComponentsModal';
 
 export class ComponentItem extends Component {
   render() {
@@ -11,7 +12,7 @@ export class ComponentItem extends Component {
           <th>{truncateString(this.props.lead_time, 2)} days</th>
           <th>{truncateString(this.props.min_order_quantity, 4)}</th>
           <th>{truncateString(this.props.supplier.name, 15)}</th>
-          <th></th>
+          <th><ComponentsModal getComponentItems={this.getComponentItems} crud='update' {...this.props} /></th>
         </tr>
     )
   }

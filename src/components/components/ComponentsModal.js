@@ -34,7 +34,15 @@ export default class ComponentsModal extends Component {
 
     componentWillMount() {
         if (this.props.crud === 'update') {
-            this.setState({name: this.props.name, price: this.props.price, description: this.props.description, lead_time: this.props.lead_time, min_order_quantity: this.props.min_order_quantity});
+            this.setState({
+                name: this.props.name,
+                price: this.props.price,
+                description: this.props.description,
+                lead_time: this.props.lead_time,
+                min_order_quantity: this.props.min_order_quantity,
+                supplierName: this.props.supplier.name,
+                supplier_id: this.props.supplier.id
+            });
         }
     }
 
@@ -67,7 +75,7 @@ export default class ComponentsModal extends Component {
     }
 
     handleSubmit() {
-        if (!this.state.name || !this.state.price || !this.state.description || !this.state.lead_time || !this.state.min_order_quantity) {
+        if (!this.state.name || !this.state.price || !this.state.description || !this.state.lead_time || !this.state.min_order_quantity || !this.state.supplier_id) {
             this.setState({alertVisible: true, alertMessage: 'You must include all details about the component.'})
         } else {
             const method = (this.props.crud === 'create')
@@ -120,6 +128,11 @@ export default class ComponentsModal extends Component {
     }
 
     render() {
+
+        const modalButton = (this.props.crud === 'create')
+            ? <Button className='' color="danger" onClick={() => this.toggleModal()}>Add New Component</Button>
+            : <Button className='' color="success" onClick={() => this.toggleModal()}>Edit</Button>;
+
         const modalTitle = (this.props.crud === 'create')
             ? 'Add New Component'
             : `Edit component: ${this.state.name}`;
@@ -159,7 +172,7 @@ export default class ComponentsModal extends Component {
 
         return (
             <div>
-                <Button className='' color="danger" onClick={() => this.toggleModal()}>Add New Component</Button>
+                {modalButton}
                 <Modal isOpen={this.state.modalVisible} toggle={() => this.toggleModal()}>
                     <ModalHeader toggle={() => this.toggleModal()}>{modalTitle}</ModalHeader>
                     <ModalBody>
@@ -201,7 +214,7 @@ export default class ComponentsModal extends Component {
                                     id="description"
                                     placeholder="Component Description"
                                     onChange={(e) => this.handleChange(e)}
-                                    value={this.state.website}
+                                    value={this.state.description}
                                     maxLength="255"
                                     required/>
                             </FormGroup>
@@ -213,7 +226,7 @@ export default class ComponentsModal extends Component {
                                     id="lead_time"
                                     placeholder="Component Lead Time"
                                     onChange={(e) => this.handleChange(e)}
-                                    value={this.state.email}
+                                    value={this.state.lead_time}
                                     maxLength="255"
                                     required/>
                             </FormGroup>
@@ -225,7 +238,7 @@ export default class ComponentsModal extends Component {
                                     id="min_order_quantity"
                                     placeholder="Component Minimum Order quantity"
                                     onChange={(e) => this.handleChange(e)}
-                                    value={this.state.email}
+                                    value={this.state.min_order_quantity}
                                     maxLength="255"
                                     required/>
                             </FormGroup>
