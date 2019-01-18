@@ -41,7 +41,7 @@ class Supplier extends Component {
                 <th>{truncateString(this.props.email)}</th>
                 <th>
                 <ButtonGroup>
-                    <SuppliersModal crud='update'/>
+                    <SuppliersModal crud='update' {...this.props}/>
                     <Modal isOpen={this.state.deleteModalVisible} toggle={() => this.toggleDeleteModal()} className={this.props.className}>
                         <ModalHeader>Delete Supplier</ModalHeader>
                         <ModalBody>
