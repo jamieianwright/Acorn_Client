@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import {
+    Badge,
     Container,
     Table,
     Input,
@@ -20,7 +21,9 @@ export class Components extends Component {
             componentItems: [],
             pagination: {},
             page: 1,
-            search: ''
+            search: '',
+            orderBy: 'name',
+            asc: true
         }
         this.getComponentItems = this
             .getComponentItems
@@ -34,7 +37,7 @@ export class Components extends Component {
     getComponentItems() {
         this.setState({ isLoaded: false })
 
-        fetch(`${process.env.REACT_APP_API_BASE_URL}components?page=${this.state.page}&pageSize=10&search=${this.state.search}`)
+        fetch(`${process.env.REACT_APP_API_BASE_URL}components?page=${this.state.page}&pageSize=10&search=${this.state.search}&order=${(this.state.asc)? 'ASC': 'DESC'}&orderBy=${this.state.orderBy}`)
             .then(res => res.json())
             .then(result => {
                 this.setState({ componentItems: result.components, pagination: result.pagination, isLoaded: true });
@@ -96,7 +99,7 @@ export class Components extends Component {
                 <Table>
                     <thead>
                         <tr>
-                            <th>Name</th>
+                            <th>Name <Badge className='btn' color="info" onClick={() => {this.setState((state) => {return {asc: !state.asc}}, this.getComponentItems)}}>{(!this.state.asc)? 'Z > A' : 'A > Z'}</Badge></th>
                             <th>Price</th>
                             <th>Description</th>
                             <th>Lead Time</th>
