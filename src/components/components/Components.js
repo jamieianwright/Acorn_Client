@@ -6,8 +6,10 @@ import {
     Table,
     Input,
     InputGroup,
-    InputGroupAddon,
-    InputGroupText
+    InputGroupButtonDropdown,
+    DropdownToggle,
+    DropdownMenu,
+    DropdownItem
 } from 'reactstrap';
 import Breadcrumb from '../UIcomponents/BreadcrumbUI';
 import './components.css';
@@ -23,8 +25,10 @@ export class Components extends Component {
             pagination: {},
             page: 1,
             search: '',
+            searchBy: 'components.name',
             orderBy: 'name',
-            asc: true
+            asc: true,
+            dropdownSearchOpen: false,
         }
         this.getComponentItems = this
             .getComponentItems
@@ -38,7 +42,7 @@ export class Components extends Component {
     getComponentItems() {
         this.setState({ isLoaded: false })
 
-        fetch(`${process.env.REACT_APP_API_BASE_URL}components?page=${this.state.page}&pageSize=10&search=${this.state.search}&order=${(this.state.asc)? 'ASC': 'DESC'}&orderBy=${this.state.orderBy}`)
+        fetch(`${process.env.REACT_APP_API_BASE_URL}components?page=${this.state.page}&pageSize=10&search=${this.state.search}&searchBy=${this.state.searchBy}&order=${(this.state.asc)? 'ASC': 'DESC'}&orderBy=${this.state.orderBy}`)
             .then(res => res.json())
             .then(result => {
                 this.setState({ componentItems: result.components, pagination: result.pagination, isLoaded: true });
@@ -109,9 +113,14 @@ export class Components extends Component {
                     <div className='contol-bar'>
                         <ComponentsModal getComponentItems={this.getComponentItems} crud='create' />
                         <InputGroup className='search-bar'>
-                            <InputGroupAddon addonType="prepend">
-                                <InputGroupText>Search for Supplier</InputGroupText>
-                            </InputGroupAddon>
+                            <InputGroupButtonDropdown addonType="prepend" isOpen={this.state.dropdownSearchOpen} toggle={() => this.setState((state) => {return {dropdownSearchOpen: !state.dropdownSearchOpen}})}>
+                                <DropdownToggle caret>
+                                Search by: {(this.state.searchBy === 'components.name')? 'Name' : 'Supplier'}
+                                </DropdownToggle>
+                                <DropdownMenu>
+                                    {(this.state.searchBy === 'components.name') ? <DropdownItem onClick={() => this.setState((state) => {return {searchBy: 'suppliers.name'}})}>Supplier</DropdownItem> : <DropdownItem onClick={() => this.setState((state) => {return {searchBy: 'components.name'}})}>Name</DropdownItem>}
+                                </DropdownMenu>
+                            </InputGroupButtonDropdown>
                             <Input
                                 name='search'
                                 value={this.state.search}
