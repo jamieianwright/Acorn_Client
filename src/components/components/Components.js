@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import {
+    Button,
     Badge,
     Container,
     Table,
@@ -57,6 +58,9 @@ export class Components extends Component {
     }
 
     render() {
+        const thStyles = {
+            verticalAlign: "middle"
+        }
         const componentRows = this
             .state
             .componentItems
@@ -76,6 +80,26 @@ export class Components extends Component {
                     onPageChange={(page) => this.onPageChange(page)} />
             </div>)
         }
+
+        const nameColHead = (this.state.orderBy === 'name')? 
+            <th style={thStyles}>Name <Badge className='btn' color="info" onClick={() => {this.setState((state) => {return {asc: !state.asc}}, this.getComponentItems)}}>{(!this.state.asc)? 'Z > A' : 'A > Z'}</Badge></th> 
+            : <th ><Button color='info' onClick={() => {this.setState((state) => {return {orderBy: 'name'}}, this.getComponentItems)}}> Name </Button> </th>;
+
+        const priceColHead = (this.state.orderBy === 'price')? 
+            <th style={thStyles}>Price <Badge className='btn' color="info" onClick={() => {this.setState((state) => {return {asc: !state.asc}}, this.getComponentItems)}}>{(!this.state.asc)? 'Desc' : 'Asc'}</Badge></th> 
+            : <th><Button color='info' onClick={() => {this.setState((state) => {return {orderBy: 'price'}}, this.getComponentItems)}}> Price </Button> </th>;
+
+        const leadColHead = (this.state.orderBy === 'lead_time')? 
+            <th style={thStyles}>Lead Time <Badge className='btn' color="info" onClick={() => {this.setState((state) => {return {asc: !state.asc}}, this.getComponentItems)}}>{(!this.state.asc)? 'Desc' : 'Asc'}</Badge></th> 
+            : <th><Button color='info' onClick={() => {this.setState((state) => {return {orderBy: 'lead_time'}}, this.getComponentItems)}}> Lead Time </Button> </th>;
+
+        const minColHead = (this.state.orderBy === 'min_order_quantity')? 
+            <th style={thStyles}>Min Order Quantity <Badge className='btn' color="info" onClick={() => {this.setState((state) => {return {asc: !state.asc}}, this.getComponentItems)}}>{(!this.state.asc)? 'Desc' : 'Asc'}</Badge></th> 
+            : <th><Button color='info' onClick={() => {this.setState((state) => {return {orderBy: 'min_order_quantity'}}, this.getComponentItems)}}> Min Order Quantity </Button> </th>;
+
+        const supplierColHead = (this.state.orderBy === 'suppliers.name')? 
+            <th style={thStyles}>Supplier <Badge className='btn' color="info" onClick={() => {this.setState((state) => {return {asc: !state.asc}}, this.getComponentItems)}}>{(!this.state.asc)? 'Z > A' : 'A > Z'}</Badge></th> 
+            : <th><Button color='info' onClick={() => {this.setState((state) => {return {orderBy: 'suppliers.name'}}, this.getComponentItems)}}> Supplier </Button> </th>;
 
         return (
             <Container>
@@ -99,13 +123,13 @@ export class Components extends Component {
                 <Table>
                     <thead>
                         <tr>
-                            <th>Name <Badge className='btn' color="info" onClick={() => {this.setState((state) => {return {asc: !state.asc}}, this.getComponentItems)}}>{(!this.state.asc)? 'Z > A' : 'A > Z'}</Badge></th>
-                            <th>Price</th>
-                            <th>Description</th>
-                            <th>Lead Time</th>
-                            <th>Min Order Quantity</th>
-                            <th>Supplier</th>
-                            <th>Action</th>
+                            {nameColHead}
+                            {priceColHead}
+                            <th style={thStyles}>Description</th>
+                            {leadColHead}
+                            {minColHead}
+                            {supplierColHead}
+                            <th style={thStyles}>Action</th>
                         </tr>
                     </thead>
                     <tbody>
