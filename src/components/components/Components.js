@@ -106,9 +106,9 @@ export class Components extends Component {
                 <h1>Components</h1>
                 <div >
                     <Breadcrumb location={this.props.location} />
-                    <div className='contol_bar'>
+                    <div className='contol-bar'>
                         <ComponentsModal getComponentItems={this.getComponentItems} crud='create' />
-                        <InputGroup className='search_bar'>
+                        <InputGroup className='search-bar'>
                             <InputGroupAddon addonType="prepend">
                                 <InputGroupText>Search for Supplier</InputGroupText>
                             </InputGroupAddon>

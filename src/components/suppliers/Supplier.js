@@ -7,16 +7,8 @@ class Supplier extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            dropdownOpen: false,
             deleteModalVisible: false,
-            modalVisible: false,
         }
-    }
-
-    toggleDropDown() {
-        this.setState({
-            dropdownOpen: !this.state.dropdownOpen,
-        });
     }
 
     handleDeleteSupplier() {
