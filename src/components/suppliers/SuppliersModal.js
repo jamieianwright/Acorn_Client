@@ -9,7 +9,7 @@ import {
     FormGroup,
     Label,
     Input,
-    Alert
+    Alert,
 } from 'reactstrap';
 
 class SuppliersModal extends Component {
@@ -96,7 +96,7 @@ class SuppliersModal extends Component {
             : <Button className='' color="success" onClick={() => this.toggleModal()}>Edit</Button>;
 
         return (
-            <div>
+            <div className='btn-group'>
                 {button}
                 <Modal isOpen={this.state.modalVisible} toggle={() => this.toggleModal()}>
                     <ModalHeader toggle={() => this.toggleModal()}>{modalTitle}</ModalHeader>

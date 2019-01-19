@@ -171,7 +171,7 @@ export default class ComponentsModal extends Component {
             : null;
 
         return (
-            <div>
+            <div className='btn-group'>
                 {modalButton}
                 <Modal isOpen={this.state.modalVisible} toggle={() => this.toggleModal()}>
                     <ModalHeader toggle={() => this.toggleModal()}>{modalTitle}</ModalHeader>
