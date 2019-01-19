@@ -60,6 +60,13 @@ export class Components extends Component {
         }, this.getComponentItems);
     }
 
+    handleSearch(e) {
+        this.setState({
+            [e.target.name]: e.target.value,
+            page: 1
+        }, this.getComponentItems);
+    }
+
     toggleAsc() {
         this.setState({ asc: !this.state.asc }, this.getComponentItems)
     }
@@ -111,7 +118,7 @@ export class Components extends Component {
                             <Input
                                 name='search'
                                 value={this.state.search}
-                                onChange={(e) => this.handleChange(e)}
+                                onChange={(e) => this.handleSearch(e)}
                             />
                         </InputGroup>
                     </div>
