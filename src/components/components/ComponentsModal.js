@@ -209,7 +209,7 @@ export default class ComponentsModal extends Component {
                             <FormGroup>
                                 <Label for='description'>Description</Label>
                                 <Input
-                                    type="text"
+                                    type="textarea"
                                     name="description"
                                     id="description"
                                     placeholder="Component Description"

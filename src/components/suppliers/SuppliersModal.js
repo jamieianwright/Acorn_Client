@@ -9,7 +9,7 @@ import {
     FormGroup,
     Label,
     Input,
-    Alert,
+    Alert
 } from 'reactstrap';
 
 class SuppliersModal extends Component {
@@ -61,9 +61,7 @@ class SuppliersModal extends Component {
                     if (result.errno === 1062) {
                         this.setState({alertVisible: true, alertMessage: `The supplier's name must be unique, '${this.state.name}' has already been taken.`})
                     } else {
-                        this
-                            .props
-                            .getSuppliers();
+                        this.props.getSuppliers();
                         this.toggleModal();
                     }
                 })
@@ -71,13 +69,16 @@ class SuppliersModal extends Component {
     }
 
     toggleModal() {
-        this.setState({
-            modalVisible: !this.state.modalVisible,
-            name: this.props.name || '',
-            phone_number: this.props.phone_number || '',
-            website: this.props.website || '',
-            email: this.props.email || ''
-        });
+        this.setState((state) => {
+            return {
+                modalVisible: !state.modalVisible,
+                name: this.props.name || '',
+                phone_number: this.props.phone_number || '',
+                website: this.props.website || '',
+                email: this.props.email || ''
+            }
+
+        })
     }
 
     onDismissAlert() {
