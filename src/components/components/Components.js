@@ -110,7 +110,7 @@ export class Components extends Component {
                 <h1>Components</h1>
                 <div >
                     <Breadcrumb location={this.props.location} />
-                    <div className='contol-bar'>
+                    <div className='control-bar'>
                         <ComponentsModal getComponentItems={this.getComponentItems} crud='create' />
                         <InputGroup className='search-bar'>
                             <InputGroupButtonDropdown addonType="prepend" isOpen={this.state.dropdownSearchOpen} toggle={() => this.setState((state) => {return {dropdownSearchOpen: !state.dropdownSearchOpen}})}>

@@ -12,9 +12,7 @@ export default class ComponentItem extends Component {
     }
 
     handleDelete() {
-        console.log('delete pressed')
         fetch(`${process.env.REACT_APP_API_BASE_URL}components/${this.props.id}`, {method: 'DELETE'}).then((result) => {
-            console.log(result)
             this.toggleDeleteModal()
             this
                 .props
