@@ -1,7 +1,5 @@
 import React, { Component } from 'react'
 import {
-    Button,
-    Badge,
     Container,
     Table,
     Input,
@@ -16,6 +14,7 @@ import './components.css';
 import ComponentItem from './ComponentItem';
 import ComponentsModal from './ComponentsModal';
 import PaginationUI from '../UIcomponents/PaginationUI';
+import SortableColumnHeading from '../UIcomponents/SortableColumnHeading';
 
 export class Components extends Component {
     constructor(props) {
@@ -42,7 +41,7 @@ export class Components extends Component {
     getComponentItems() {
         this.setState({ isLoaded: false })
 
-        fetch(`${process.env.REACT_APP_API_BASE_URL}components?page=${this.state.page}&pageSize=10&search=${this.state.search}&searchBy=${this.state.searchBy}&order=${(this.state.asc)? 'ASC': 'DESC'}&orderBy=${this.state.orderBy}`)
+        fetch(`${process.env.REACT_APP_API_BASE_URL}components?page=${this.state.page}&pageSize=10&search=${this.state.search}&searchBy=${this.state.searchBy}&order=${(this.state.asc) ? 'ASC' : 'DESC'}&orderBy=${this.state.orderBy}`)
             .then(res => res.json())
             .then(result => {
                 this.setState({ componentItems: result.components, pagination: result.pagination, isLoaded: true });
@@ -61,6 +60,14 @@ export class Components extends Component {
         }, this.getComponentItems);
     }
 
+    toggleAsc() {
+        this.setState({ asc: !this.state.asc }, this.getComponentItems)
+    }
+
+    setOrderBy(newOrderBy) {
+        this.setState({ orderBy: newOrderBy }, this.getComponentItems)
+    }
+
     render() {
         const thStyles = {
             verticalAlign: "middle"
@@ -74,7 +81,7 @@ export class Components extends Component {
                     {...componentItem}
                     getComponentItems={this.getComponentItems} />
             })
-            
+
         let pagination = null;
         if (componentRows.length > 0) {
             pagination = (<div className="justify-content-center">
@@ -85,26 +92,6 @@ export class Components extends Component {
             </div>)
         }
 
-        const nameColHead = (this.state.orderBy === 'name')? 
-            <th style={thStyles}>Name <Badge className='btn' color="info" onClick={() => {this.setState((state) => {return {asc: !state.asc}}, this.getComponentItems)}}>{(!this.state.asc)? 'Z > A' : 'A > Z'}</Badge></th> 
-            : <th ><Button color='info' onClick={() => {this.setState((state) => {return {orderBy: 'name'}}, this.getComponentItems)}}> Name </Button> </th>;
-
-        const priceColHead = (this.state.orderBy === 'price')? 
-            <th style={thStyles}>Price <Badge className='btn' color="info" onClick={() => {this.setState((state) => {return {asc: !state.asc}}, this.getComponentItems)}}>{(!this.state.asc)? 'Desc' : 'Asc'}</Badge></th> 
-            : <th><Button color='info' onClick={() => {this.setState((state) => {return {orderBy: 'price'}}, this.getComponentItems)}}> Price </Button> </th>;
-
-        const leadColHead = (this.state.orderBy === 'lead_time')? 
-            <th style={thStyles}>Lead Time <Badge className='btn' color="info" onClick={() => {this.setState((state) => {return {asc: !state.asc}}, this.getComponentItems)}}>{(!this.state.asc)? 'Desc' : 'Asc'}</Badge></th> 
-            : <th><Button color='info' onClick={() => {this.setState((state) => {return {orderBy: 'lead_time'}}, this.getComponentItems)}}> Lead Time </Button> </th>;
-
-        const minColHead = (this.state.orderBy === 'min_order_quantity')? 
-            <th style={thStyles}>Min Order Quantity <Badge className='btn' color="info" onClick={() => {this.setState((state) => {return {asc: !state.asc}}, this.getComponentItems)}}>{(!this.state.asc)? 'Desc' : 'Asc'}</Badge></th> 
-            : <th><Button color='info' onClick={() => {this.setState((state) => {return {orderBy: 'min_order_quantity'}}, this.getComponentItems)}}> Min Order Quantity </Button> </th>;
-
-        const supplierColHead = (this.state.orderBy === 'suppliers.name')? 
-            <th style={thStyles}>Supplier <Badge className='btn' color="info" onClick={() => {this.setState((state) => {return {asc: !state.asc}}, this.getComponentItems)}}>{(!this.state.asc)? 'Z > A' : 'A > Z'}</Badge></th> 
-            : <th><Button color='info' onClick={() => {this.setState((state) => {return {orderBy: 'suppliers.name'}}, this.getComponentItems)}}> Supplier </Button> </th>;
-
         return (
             <Container>
                 <h1>Components</h1>
@@ -113,31 +100,61 @@ export class Components extends Component {
                     <div className='contol-bar'>
                         <ComponentsModal getComponentItems={this.getComponentItems} crud='create' />
                         <InputGroup className='search-bar'>
-                            <InputGroupButtonDropdown addonType="prepend" isOpen={this.state.dropdownSearchOpen} toggle={() => this.setState((state) => {return {dropdownSearchOpen: !state.dropdownSearchOpen}})}>
+                            <InputGroupButtonDropdown addonType="prepend" isOpen={this.state.dropdownSearchOpen} toggle={() => this.setState((state) => { return { dropdownSearchOpen: !state.dropdownSearchOpen } })}>
                                 <DropdownToggle caret>
-                                Search by: {(this.state.searchBy === 'components.name')? 'Name' : 'Supplier'}
+                                    Search by: {(this.state.searchBy === 'components.name') ? 'Name' : 'Supplier'}
                                 </DropdownToggle>
                                 <DropdownMenu>
-                                    {(this.state.searchBy === 'components.name') ? <DropdownItem onClick={() => this.setState((state) => {return {searchBy: 'suppliers.name'}})}>Supplier</DropdownItem> : <DropdownItem onClick={() => this.setState((state) => {return {searchBy: 'components.name'}})}>Name</DropdownItem>}
+                                    {(this.state.searchBy === 'components.name') ? <DropdownItem onClick={() => this.setState((state) => { return { searchBy: 'suppliers.name' } })}>Supplier</DropdownItem> : <DropdownItem onClick={() => this.setState((state) => { return { searchBy: 'components.name' } })}>Name</DropdownItem>}
                                 </DropdownMenu>
                             </InputGroupButtonDropdown>
                             <Input
                                 name='search'
                                 value={this.state.search}
-                                onChange={(e) => this.handleChange(e)} 
-                                />
+                                onChange={(e) => this.handleChange(e)}
+                            />
                         </InputGroup>
                     </div>
                 </div>
                 <Table>
                     <thead>
                         <tr>
-                            {nameColHead}
-                            {priceColHead}
+                            <SortableColumnHeading
+                                columnHeaderId='name'
+                                columnHeaderName='Name'
+                                currentOrderBy={this.state.orderBy}
+                                asc={this.state.asc}
+                                setOrderBy={(newOrderBy) => this.setOrderBy(newOrderBy)}
+                                toggleAsc={() => this.toggleAsc()} />
+                            <SortableColumnHeading
+                                columnHeaderId='price'
+                                columnHeaderName='Price'
+                                currentOrderBy={this.state.orderBy}
+                                asc={this.state.asc}
+                                setOrderBy={(newOrderBy) => this.setOrderBy(newOrderBy)}
+                                toggleAsc={() => this.toggleAsc()} />
                             <th style={thStyles}>Description</th>
-                            {leadColHead}
-                            {minColHead}
-                            {supplierColHead}
+                            <SortableColumnHeading
+                                columnHeaderId='lead_time'
+                                columnHeaderName='Lead Time'
+                                currentOrderBy={this.state.orderBy}
+                                asc={this.state.asc}
+                                setOrderBy={(newOrderBy) => this.setOrderBy(newOrderBy)}
+                                toggleAsc={() => this.toggleAsc()} />
+                            <SortableColumnHeading
+                                columnHeaderId='min_order_quantity'
+                                columnHeaderName='Min Order Quantity'
+                                currentOrderBy={this.state.orderBy}
+                                asc={this.state.asc}
+                                setOrderBy={(newOrderBy) => this.setOrderBy(newOrderBy)}
+                                toggleAsc={() => this.toggleAsc()} />
+                            <SortableColumnHeading
+                                columnHeaderId='suppliers.name'
+                                columnHeaderName='Supplier'
+                                currentOrderBy={this.state.orderBy}
+                                asc={this.state.asc}
+                                setOrderBy={(newOrderBy) => this.setOrderBy(newOrderBy)}
+                                toggleAsc={() => this.toggleAsc()} />
                             <th style={thStyles}>Action</th>
                         </tr>
                     </thead>
