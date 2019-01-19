@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import {Link} from 'react-router-dom';
 import { ButtonGroup, Button, Modal, ModalBody, ModalHeader, ModalFooter } from 'reactstrap';
 import { truncateString } from '../../utils.js';
 import SuppliersModal from './SuppliersModal';
@@ -33,6 +34,7 @@ class Supplier extends Component {
                 <th>{truncateString(this.props.email)}</th>
                 <th>
                 <ButtonGroup>
+                    <Link className='btn btn-info' to={`/suppliers/${this.props.id}`}>View</Link>
                     <SuppliersModal crud='update' {...this.props}/>
                     <Modal isOpen={this.state.deleteModalVisible} toggle={() => this.toggleDeleteModal()} className={this.props.className}>
                         <ModalHeader>Delete Supplier</ModalHeader>

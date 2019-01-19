@@ -3,6 +3,7 @@ import { withRouter, BrowserRouter, Switch, Route } from 'react-router-dom';
 import { Container } from 'reactstrap';
 import NavBarUI from './components/UIcomponents/NavBarUI';
 import Suppliers from './components/suppliers/Suppliers';
+import SupplierView from './components/suppliers/SupplierView'
 import Components from './components/components/Components';
 import Login from './components/authentication/login';
 import AuthenticationComponent from './AuthenticationComponent';
@@ -58,7 +59,8 @@ class App extends Component {
             <Route path="/login" render={(props) => <Login onLogIn={this.onLogIn} {...props}/>}/>
             <AuthenticationComponent>
               <Route exact path="/" component={Home} />
-              <Route path="/suppliers" component={Suppliers} />
+              <Route exact path="/suppliers" component={Suppliers} />
+              <Route path="/suppliers/:id" component={SupplierView} />
               <Route path="/components" component={Components} />
             </AuthenticationComponent>
             <Route component={PageNotFound} />

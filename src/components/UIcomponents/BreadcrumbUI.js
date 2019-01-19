@@ -9,7 +9,7 @@ class BreadcrumbUI extends Component {
     
     const breadcrumbs = params.map((param, i, arr) => {
       let breadcrumbClass = (i < arr.length - 1) ? 'breadcrumb-item' : 'breadcrumb-item active disabled'
-      let displayParam = param.charAt(0).toUpperCase() + param.slice(1).toLowerCase();
+      let displayParam = (this.props.overrideDisplay && i === arr.length - 1)? `${this.props.overrideDisplay}` : param.charAt(0).toUpperCase() + param.slice(1).toLowerCase();
       let link = '';
       for (let j = 0; j <= i; j++) {
         link += '/' + arr[j];
