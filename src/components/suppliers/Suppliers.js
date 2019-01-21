@@ -106,7 +106,7 @@ class Suppliers extends Component {
                 <h1>Suppliers</h1>
                 <div className='control-bar'>
                     <Breadcrumb location={this.props.location}/>
-                    <SuppliersModal getSuppliers={this.getSuppliers} crud='create'/>
+                    <SuppliersModal getSuppliers={this.getSupplierItems} crud='create'/>
                     <InputGroup className='search-bar'>
                         <InputGroupAddon addonType="prepend">
                             <InputGroupText>Search for Supplier</InputGroupText>
