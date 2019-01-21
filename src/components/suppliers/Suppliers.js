@@ -1,108 +1,164 @@
-import React, { Component } from 'react';
-import { Container, Table, Input, Badge, InputGroup, InputGroupAddon, InputGroupText } from 'reactstrap';
+import React, {Component} from 'react';
+import {
+    Container,
+    Table,
+    Input,
+    InputGroup,
+    InputGroupAddon,
+    InputGroupText
+} from 'reactstrap';
 import Supplier from './Supplier';
 import SuppliersModal from './SuppliersModal';
 import './Suppliers.css';
 import Breadcrumb from '../UIcomponents/BreadcrumbUI';
-import _ from 'lodash';
+import PaginationUI from '../UIcomponents/PaginationUI';
+import SortableColumnHeading from '../UIcomponents/SortableColumnHeading';
 
 class Suppliers extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      suppliers: [],
-      filteredSuppliers: [],
-      isLoaded: true,
-      desc: false,
-      search: ''
+    constructor(props) {
+        super(props);
+        this.state = {
+            supplierItems: [],
+            pagination: {},
+            page: 1,
+            pageSize: 10,
+            search: '',
+            searchBy: 'name',
+            orderBy: 'name',
+            asc: true
+        }
+        this.getSupplierItems = this
+            .getSupplierItems
+            .bind(this);
     }
-    this.getSuppliers = this.getSuppliers.bind(this);
-    this.handleSortTable = this.handleSortTable.bind(this);
-  }
 
-  componentWillMount(){
-    this.getSuppliers()
-  }
+    componentWillMount() {
+        this.getSupplierItems()
+    }
 
-  getSuppliers() {
-    this.setState({
-      isLoaded: false
-    })
+    getSupplierItems() {
+        this.setState({isLoaded: false})
 
-    fetch(process.env.REACT_APP_API_BASE_URL + 'suppliers/')
-      .then(res => res.json())
-      .then(result => {
+        fetch(`${process.env.REACT_APP_API_BASE_URL}suppliers?page=${this.state.page}&pageSize=${this.state.pageSize}&search=${this.state.search}&searchBy=${this.state.searchBy}&order=${ (this.state.asc)? 'ASC': 'DESC'}&orderBy=${this.state.orderBy}`)
+            .then(res => res.json())
+            .then(result => {
+                this.setState({supplierItems: result.suppliers, pagination: result.pagination, isLoaded: true});
+            })
+    }
+
+    onPageChange(increment) {
         this.setState({
-          suppliers: result,
-          isLoaded: true
-        })
-      })
-      .then(() => this.handleSortTable())
-  }
+            page: increment
+        }, this.getSupplierItems)
+    }
 
-  handleChange(e) {
-    this.setState({[e.target.name]: e.target.value});
-  }
+    handleChange(e) {
+        this.setState({
+            [e.target.name]: e.target.value
+        }, this.getSupplierItems);
+    }
 
-  handleSortInvert(){
-    this.setState({
-      desc: !this.state.desc
-    }, this.handleSortTable)
-  }
+    handleSearch(e) {
+        this.setState({
+            [e.target.name]: e.target.value,
+            page: 1
+        }, this.getSupplierItems);
+    }
 
-  handleSortTable(){
-    let desc = this.state.desc
+    toggleAsc() {
+        this.setState({
+            asc: !this.state.asc
+        }, this.getSupplierItems)
+    }
 
-    let sortedSuppliers = _.orderBy(this.state.suppliers, [supplier => supplier.name.toLowerCase()], [(!desc)? 'asc': 'desc'])
+    setOrderBy(newOrderBy) {
+        this.setState({
+            orderBy: newOrderBy
+        }, this.getSupplierItems)
+    }
 
-    this.setState({
-      suppliers: sortedSuppliers,
-    });
-  }
+    render() {
+        const thStyles = {
+            verticalAlign: "middle"
+        }
 
-  render() {
+        const supplierRows = this
+            .state
+            .supplierItems
+            .map((supplierItem, i) => {
+                return <Supplier key={i} {...supplierItem} getSuppliers={this.getSupplierItems}/>
+            })
 
-    const filteredSuppliers = this.state.suppliers.filter(
-      (supplier) => {
-        return supplier.name.toLowerCase().indexOf(
-          this.state.search.toLowerCase()) !==-1;
-      }
-    )
+        let pagination = null;
+        if (supplierRows.length > 0) {
+            pagination = (
+                <div className="justify-content-center">
+                    <PaginationUI
+                        currentPage={this.state.page}
+                        maxPages={this.state.pagination.pageCount}
+                        onPageChange={(page) => this.onPageChange(page)}/>
+                </div>
+            )
+        }
 
-    const suppliers = filteredSuppliers.map((supplier, i) => {
-      return <Supplier key={i} {...supplier} getSuppliers={this.getSuppliers}/>
-    })
-
-    return (
-      <Container>
-        <h1>Suppliers</h1>
-        <div className='control-bar'>
-        <Breadcrumb location={this.props.location} />
-        <SuppliersModal getSuppliers={this.getSuppliers} crud='create'/>
-        <InputGroup className='search-bar'>
-          <InputGroupAddon addonType="prepend">
-            <InputGroupText>Search for Supplier</InputGroupText>
-          </InputGroupAddon>
-          <Input name='search' value={this.state.search}  onChange={(e) => this.handleChange(e)}/>
-        </InputGroup>
-        </div>
-        <Table>
-          <thead>
-            <tr>
-              <th>Name <Badge className='btn' color="info" onClick={() => this.handleSortInvert()}>{(this.state.desc)? 'Z > A' : 'A > Z'}</Badge></th>
-              <th>Phone Number</th>
-              <th>Website</th>
-              <th>Email</th>
-              <th>Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            {suppliers}
-          </tbody>
-        </Table>
-      </Container>
-    );
-  }
+        return (
+            <Container>
+                <h1>Suppliers</h1>
+                <div className='control-bar'>
+                    <Breadcrumb location={this.props.location}/>
+                    <SuppliersModal getSuppliers={this.getSuppliers} crud='create'/>
+                    <InputGroup className='search-bar'>
+                        <InputGroupAddon addonType="prepend">
+                            <InputGroupText>Search for Supplier</InputGroupText>
+                        </InputGroupAddon>
+                        <Input
+                            name='search'
+                            value={this.state.search}
+                            onChange={(e) => this.handleSearch(e)} />
+                    </InputGroup>
+                </div>
+                <Table>
+                    <thead>
+                        <tr>
+                            <SortableColumnHeading
+                                columnHeaderId='name'
+                                columnHeaderName='Name'
+                                currentOrderBy={this.state.orderBy}
+                                asc={this.state.asc}
+                                setOrderBy={(newOrderBy) => this.setOrderBy(newOrderBy)}
+                                toggleAsc={() => this.toggleAsc()}/>
+                            <SortableColumnHeading
+                                columnHeaderId='phone_number'
+                                columnHeaderName='Phone Number'
+                                currentOrderBy={this.state.orderBy}
+                                asc={this.state.asc}
+                                setOrderBy={(newOrderBy) => this.setOrderBy(newOrderBy)}
+                                toggleAsc={() => this.toggleAsc()}/>
+                            <SortableColumnHeading
+                                columnHeaderId='website'
+                                columnHeaderName='Website'
+                                currentOrderBy={this.state.orderBy}
+                                asc={this.state.asc}
+                                setOrderBy={(newOrderBy) => this.setOrderBy(newOrderBy)}
+                                toggleAsc={() => this.toggleAsc()}/>
+                            <SortableColumnHeading
+                                columnHeaderId='email'
+                                columnHeaderName='Email'
+                                currentOrderBy={this.state.orderBy}
+                                asc={this.state.asc}
+                                setOrderBy={(newOrderBy) => this.setOrderBy(newOrderBy)}
+                                toggleAsc={() => this.toggleAsc()}/>
+                            <th style={thStyles}>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                      {supplierRows.length !== 0 ? supplierRows : <tr><th>No Records match your search criteria :'(</th></tr>}
+                    </tbody>
+                </Table>
+                {pagination}
+            </Container>
+        );
+    }
 }
 
 export default Suppliers;
