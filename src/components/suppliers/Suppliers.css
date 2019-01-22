@@ -10,3 +10,11 @@
     float: right;
 
 }
+
+.view-headers {
+    text-decoration: underline;
+}
+
+.view-col {
+    padding-bottom: 1.5em
+}
