@@ -121,16 +121,21 @@ export default class ComponentsModal extends Component {
             description: this.props.description || '',
             lead_time: this.props.lead_time || '',
             min_order_quantity: this.props.min_order_quantity || '',
+            supplier_id: (this.props.supplier)? this.props.supplier.id : '',
+            supplierName: (this.props.supplier)? this.props.supplier.name : '',
             suppliers: [],
             supplierSearch: '',
+            alertVisible: false,
+            alertMessage: '',
             alertSupplierVisible: false
         });
     }
 
     render() {
+        console.log(this.props)
 
         const modalButton = (this.props.crud === 'create')
-            ? <Button className='' color="danger" onClick={() => this.toggleModal()}>Add New Component</Button>
+            ? <Button className='' color="success" onClick={() => this.toggleModal()}>Add New Component</Button>
             : <Button className='' color="success" onClick={() => this.toggleModal()}>Edit</Button>;
 
         const modalTitle = (this.props.crud === 'create')

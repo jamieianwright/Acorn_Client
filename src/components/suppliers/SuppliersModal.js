@@ -93,7 +93,7 @@ class SuppliersModal extends Component {
             ? 'Add New Supplier'
             : `Edit supplier: ${this.props.name}`;
         const button = (this.props.crud === 'create')
-            ? <Button className='' color="danger" onClick={() => this.toggleModal()}>Add New Supplier</Button>
+            ? <Button className='' color="success" onClick={() => this.toggleModal()}>Add New Supplier</Button>
             : <Button className='' color="success" onClick={() => this.toggleModal()}>Edit</Button>;
 
         return (
