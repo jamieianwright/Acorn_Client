@@ -1,5 +1,6 @@
-import React, { Component } from 'react'
-import { Modal, ModalHeader, ModalBody, ModalFooter, Button, ButtonGroup } from 'reactstrap'
+import React, { Component } from 'react';
+import {Link} from 'react-router-dom';
+import { Modal, ModalHeader, ModalBody, ModalFooter, Button, ButtonGroup } from 'reactstrap';
 import { truncateString } from '../../utils.js';
 import ComponentsModal from './ComponentsModal';
 
@@ -33,7 +34,7 @@ export default class ComponentItem extends Component {
                 <th>{truncateString(this.props.description)}</th>
                 <th>{truncateString(this.props.lead_time, 2)} days</th>
                 <th>{truncateString(this.props.min_order_quantity, 4)}</th>
-                <th>{truncateString(this.props.supplier.name, 15)}</th>
+                <th><Link to={`/suppliers/${this.props.supplier.id}`}>{truncateString(this.props.supplier.name, 15)}</ Link></th>
                 <th>
                     <ButtonGroup>
                         <ComponentsModal

@@ -28,7 +28,7 @@ class Supplier extends Component {
 
         return (
             <tr>
-                <th>{truncateString(this.props.name)}</th>
+                <th><Link to={`/suppliers/${this.props.id}`}>{truncateString(this.props.name)}</Link></th>
                 <th>{truncateString(this.props.phone_number, 11)}</th>
                 <th>{truncateString(this.props.website)}</th>
                 <th>{truncateString(this.props.email)}</th>
