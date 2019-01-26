@@ -10,11 +10,11 @@ import {
     ModalFooter,
     Button,
     ButtonGroup,
-    Collapse,
-    ListGroup,
-    ListGroupItem
+    Table
 } from 'reactstrap';
 import Breadcrumb from '../UIcomponents/BreadcrumbUI';
+import SortableColumnHeading from '../UIcomponents/SortableColumnHeading';
+
 
 class ProjectView extends Component {
     constructor(props) {
@@ -37,7 +37,7 @@ class ProjectView extends Component {
     getProject() {
         this.setState({isLoaded: false})
 
-        fetch(process.env.REACT_APP_API_BASE_URL + `projects/${this.props.match.params.id}/components`)
+        fetch(process.env.REACT_APP_API_BASE_URL + `projects/${this.props.match.params.id}`)
             .then(res => res.json())
             .then(result => {
                 this.setState({project: result, isLoaded: true})
@@ -60,6 +60,9 @@ class ProjectView extends Component {
     }
 
     render() {
+        const thStyles = {
+            verticalAlign: "middle"
+        }
 
         const crud = <div className='d-inline-block ml-3'>
             <ButtonGroup>
@@ -76,20 +79,18 @@ class ProjectView extends Component {
                         <Button color="secondary" onClick={() => this.toggleDeleteModal()}>Cancel</Button>
                     </ModalFooter>
                 </Modal>
-                <Button color="danger" onClick={() => this.toggleDeleteModal()}><i class="fas fa-trash-alt"></i></Button>
-                <Link className='btn btn-warning' to={`/projects`}><i class="fas fa-list-ul"></i></Link>
+                <Button color="danger" onClick={() => this.toggleDeleteModal()}>
+                    <i class="fas fa-trash-alt"></i>
+                </Button>
+                <Link className='btn btn-warning' to={`/projects`}>
+                    <i class="fas fa-list-ul"></i>
+                </Link>
             </ButtonGroup>
         </div>
 
         const title = (this.state.isLoaded)
             ? <h1 className='d-inline-block'>{this.state.project.name}</h1>
             : <h1>Loading...</h1>;
-
-        const componentButton = (this.state.project.components !== undefined && this.state.project.components.length >= 1)? <Button color="primary" onClick={()=> this.setState({componentsCollapse: !this.state.componentsCollapse})} style={{ marginBottom: '1rem', marginTop: '1rem' }}>{(this.state.componentsCollapse)? 'Hide' : 'Show' }</Button> : <span>None</span>;
-
-
-        const components = (this.state.project.components)? this.state.project.components.map((component, i) => {
-                    return <ListGroupItem key={i}><Link className='' to={`/components`}>{component.name} </Link></ListGroupItem>}) : null ;
 
         return (
             <Container>
@@ -106,14 +107,30 @@ class ProjectView extends Component {
                         <span>{this.state.project.description}</span>
                     </Col>
                 </Row>
-                <hr />
-                    <h4 className='view-headers'>Components</h4>
-                    <Collapse isOpen={this.state.componentsCollapse}>
-                        <ListGroup>
-                            {components}
-                        </ListGroup>
-                    </Collapse>
-                    {componentButton}
+                <hr/>
+                <h3>Components</h3>
+                <Table>
+                    <thead>
+                        <tr>
+                            <SortableColumnHeading
+                                columnHeaderId='name'
+                                columnHeaderName='Name'
+                                currentOrderBy={this.state.orderBy}
+                                asc={this.state.asc}
+                                setOrderBy={(newOrderBy) => this.setOrderBy(newOrderBy)}
+                                toggleAsc={() => this.toggleAsc()}/>
+                            <SortableColumnHeading
+                                columnHeaderId='quantity'
+                                columnHeaderName='Quantity'
+                                currentOrderBy={this.state.orderBy}
+                                asc={this.state.asc}
+                                setOrderBy={(newOrderBy) => this.setOrderBy(newOrderBy)}
+                                toggleAsc={() => this.toggleAsc()}/>
+                            <th style={thStyles}>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </Table>
             </Container>
         )
     }
