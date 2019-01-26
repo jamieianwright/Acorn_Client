@@ -43,6 +43,9 @@ export class NavBarUI extends Component {
                             <NavItem>
                                 <Link className='nav-link' to='/components'>Components</Link>
                             </NavItem>
+                            <NavItem>
+                                <Link className='nav-link' to='/projects'>Projects</Link>
+                            </NavItem>
                         </Nav>
                         <Nav className="ml-auto">
                             {AuthenticationNav}

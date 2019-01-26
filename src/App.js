@@ -5,6 +5,7 @@ import NavBarUI from './components/UIcomponents/NavBarUI';
 import Suppliers from './components/suppliers/Suppliers';
 import SupplierView from './components/suppliers/SupplierView'
 import Components from './components/components/Components';
+import Projects from './components/projects/projects';
 import Login from './components/authentication/login';
 import AuthenticationComponent from './AuthenticationComponent';
 
@@ -62,6 +63,7 @@ class App extends Component {
               <Route exact path="/suppliers" component={Suppliers} />
               <Route path="/suppliers/:id" component={SupplierView} />
               <Route path="/components" component={Components} />
+              <Route path="/projects" component={Projects} />
             </AuthenticationComponent>
             <Route component={PageNotFound} />
           </Switch>   
