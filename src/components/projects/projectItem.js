@@ -17,6 +17,7 @@ export default class ProjectItem extends Component {
                         <Link className='btn btn-info' to={`/projects/${this.props.id}`}>View</Link>
                     </ButtonGroup>
                 </th>
-            </tr>)
+            </tr>
+        )
     }
 }

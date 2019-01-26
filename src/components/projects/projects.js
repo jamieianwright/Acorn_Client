@@ -4,6 +4,7 @@ import Breadcrumb from '../UIcomponents/BreadcrumbUI';
 import PaginationUI from '../UIcomponents/PaginationUI';
 import SortableColumnHeading from '../UIcomponents/SortableColumnHeading';
 import ProjectItem from './projectItem';
+import ProjectsModal from './ProjectsModal';
 
 
 export class Projects extends Component {
@@ -82,6 +83,7 @@ export class Projects extends Component {
                 <Breadcrumb location={this.props.location} />
                 <h1>Projects</h1>
                 <div className='control-bar'>
+                    <ProjectsModal getProjects={this.getProjects} crud='create'/>
                     <InputGroup className='search-bar'>
                         <InputGroupAddon addonType="prepend">
                             <InputGroupText>Search for Project</InputGroupText>
