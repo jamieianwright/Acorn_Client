@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Container, Table } from 'reactstrap';
+import { Container, Table, Input, InputGroup, InputGroupAddon, InputGroupText } from 'reactstrap';
 import Breadcrumb from '../UIcomponents/BreadcrumbUI';
 import PaginationUI from '../UIcomponents/PaginationUI';
 import SortableColumnHeading from '../UIcomponents/SortableColumnHeading';
@@ -15,6 +15,7 @@ export class Projects extends Component {
             pagination: {},
             page: 1,
             asc: true,
+            search: '',
         }
 
         this.getProjects = this.getProjects.bind(this);
@@ -27,7 +28,7 @@ export class Projects extends Component {
     getProjects() {
         this.setState({ isLoaded: false })
 
-        fetch(`${process.env.REACT_APP_API_BASE_URL}projects?page=${this.state.page}&pageSize=10&order=${(this.state.asc) ? 'ASC' : 'DESC'}`)
+        fetch(`${process.env.REACT_APP_API_BASE_URL}projects?page=${this.state.page}&pageSize=10&search=${this.state.search}&order=${(this.state.asc) ? 'ASC' : 'DESC'}`)
             .then(res => res.json())
             .then(result => {
                 this.setState({
@@ -46,6 +47,13 @@ export class Projects extends Component {
 
     toggleAsc() {
         this.setState({ asc: !this.state.asc }, this.getProjects)
+    }
+
+    handleSearch(e) {
+        this.setState({
+            [e.target.name]: e.target.value,
+            page: 1
+        }, this.getProjects);
     }
 
     render() {
@@ -73,6 +81,17 @@ export class Projects extends Component {
             <Container>
                 <Breadcrumb location={this.props.location} />
                 <h1>Projects</h1>
+                <div className='control-bar'>
+                    <InputGroup className='search-bar'>
+                        <InputGroupAddon addonType="prepend">
+                            <InputGroupText>Search for Project</InputGroupText>
+                        </InputGroupAddon>
+                        <Input
+                            name='search'
+                            value={this.state.search}
+                            onChange={(e) => this.handleSearch(e)} />
+                    </InputGroup>
+                </div>
                 <Table>
                     <thead>
                         <tr>
@@ -81,7 +100,6 @@ export class Projects extends Component {
                                 columnHeaderName='Name'
                                 currentOrderBy='name'
                                 asc={this.state.asc}
-                                // setOrderBy={() => null}
                                 toggleAsc={() => this.toggleAsc()} />
                             <th style={thStyles}>Description</th>
                             <th style={thStyles}>Action</th>

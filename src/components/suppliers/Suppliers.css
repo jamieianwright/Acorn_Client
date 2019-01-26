@@ -1,16 +1,3 @@
-
-.control-bar{
-    position: relative;
-    height: auto;
-    margin: 1.5em 0;
-}
-
-.search-bar{
-    max-width: 400px;
-    float: right;
-
-}
-
 .view-headers {
     text-decoration: underline;
 }

@@ -103,9 +103,9 @@ class Suppliers extends Component {
 
         return (
             <Container>
+                <Breadcrumb location={this.props.location}/>
                 <h1>Suppliers</h1>
                 <div className='control-bar'>
-                    <Breadcrumb location={this.props.location}/>
                     <SuppliersModal getSuppliers={this.getSupplierItems} crud='create'/>
                     <InputGroup className='search-bar'>
                         <InputGroupAddon addonType="prepend">
