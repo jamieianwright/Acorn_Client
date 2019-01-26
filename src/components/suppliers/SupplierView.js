@@ -92,7 +92,7 @@ class SupplierView extends Component {
                     </ModalFooter>
                 </Modal>
                 <Button color="danger" onClick={() => this.toggleDeleteModal()}><i class="fas fa-trash-alt"></i></Button>
-                <Link className='btn btn-warning' to={`/suppliers/`}><i class="fas fa-list-ul"></i></Link>
+                <Link className='btn btn-warning' to={`/suppliers`}><i class="fas fa-list-ul"></i></Link>
             </ButtonGroup>
         </div>
 
