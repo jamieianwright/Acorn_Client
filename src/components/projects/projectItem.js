@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { Button, ButtonGroup } from 'reactstrap';
+import { ButtonGroup } from 'reactstrap';
+import { Link } from 'react-router-dom';
 import { truncateString } from '../../utils.js';
 
 export default class ProjectItem extends Component {
@@ -13,7 +14,7 @@ export default class ProjectItem extends Component {
                 <th>{isActive ? "Yes" : "No"}</th>
                 <th>
                     <ButtonGroup>
-                        <Button color="success">View</Button>
+                        <Link className='btn btn-info' to={`/projects/${this.props.id}`}>View</Link>
                     </ButtonGroup>
                 </th>
             </tr>)
