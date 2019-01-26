@@ -101,27 +101,25 @@ export class Components extends Component {
 
         return (
             <Container>
+                <Breadcrumb location={this.props.location} />
                 <h1>Components</h1>
-                <div >
-                    <Breadcrumb location={this.props.location} />
-                    <div className='control-bar'>
-                        <ComponentsModal getComponentItems={this.getComponentItems} crud='create' />
-                        <InputGroup className='search-bar'>
-                            <InputGroupButtonDropdown addonType="prepend" isOpen={this.state.dropdownSearchOpen} toggle={() => this.setState((state) => { return { dropdownSearchOpen: !state.dropdownSearchOpen } })}>
-                                <DropdownToggle caret>
-                                    Search by: {(this.state.searchBy === 'components.name') ? 'Name' : 'Supplier'}
-                                </DropdownToggle>
-                                <DropdownMenu>
-                                    {(this.state.searchBy === 'components.name') ? <DropdownItem onClick={() => this.setState((state) => { return { searchBy: 'suppliers.name' } })}>Supplier</DropdownItem> : <DropdownItem onClick={() => this.setState((state) => { return { searchBy: 'components.name' } })}>Name</DropdownItem>}
-                                </DropdownMenu>
-                            </InputGroupButtonDropdown>
-                            <Input
-                                name='search'
-                                value={this.state.search}
-                                onChange={(e) => this.handleSearch(e)}
-                            />
-                        </InputGroup>
-                    </div>
+                <div className='control-bar'>
+                    <ComponentsModal getComponentItems={this.getComponentItems} crud='create' />
+                    <InputGroup className='search-bar'>
+                        <InputGroupButtonDropdown addonType="prepend" isOpen={this.state.dropdownSearchOpen} toggle={() => this.setState((state) => { return { dropdownSearchOpen: !state.dropdownSearchOpen } })}>
+                            <DropdownToggle caret>
+                                Search by: {(this.state.searchBy === 'components.name') ? 'Name' : 'Supplier'}
+                            </DropdownToggle>
+                            <DropdownMenu>
+                                {(this.state.searchBy === 'components.name') ? <DropdownItem onClick={() => this.setState((state) => { return { searchBy: 'suppliers.name' } })}>Supplier</DropdownItem> : <DropdownItem onClick={() => this.setState((state) => { return { searchBy: 'components.name' } })}>Name</DropdownItem>}
+                            </DropdownMenu>
+                        </InputGroupButtonDropdown>
+                        <Input
+                            name='search'
+                            value={this.state.search}
+                            onChange={(e) => this.handleSearch(e)}
+                        />
+                    </InputGroup>
                 </div>
                 <Table>
                     <thead>

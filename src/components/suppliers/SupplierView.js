@@ -108,13 +108,13 @@ class SupplierView extends Component {
 
         return (
             <Container>
-                <div className='d-flex align-items-center'>
-                    {title}
-                    {crud}
-                </div>
                 <Breadcrumb
                     location={this.props.location}
                     overrideDisplay={this.state.supplier.name}/>
+                <div className='d-flex align-items-center supplier-view-header'>
+                    {title}
+                    {crud}
+                </div>
                 <Row>
                     <Col md={6} className='view-col'>
                         <h4 className='view-headers'>Phone Number</h4>
