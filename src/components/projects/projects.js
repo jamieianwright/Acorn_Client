@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Container, Table } from 'reactstrap';
 import Breadcrumb from '../UIcomponents/BreadcrumbUI';
 import PaginationUI from '../UIcomponents/PaginationUI';
+import SortableColumnHeading from '../UIcomponents/SortableColumnHeading';
 import ProjectItem from './projectItem';
 
 
@@ -43,6 +44,10 @@ export class Projects extends Component {
         }, this.getProjects)
     }
 
+    toggleAsc() {
+        this.setState({ asc: !this.state.asc }, this.getProjects)
+    }
+
     render() {
         const thStyles = {
             verticalAlign: "middle"
@@ -71,14 +76,13 @@ export class Projects extends Component {
                 <Table>
                     <thead>
                         <tr>
-                            <th style={thStyles}>Name</th>
-                            {/* <SortableColumnHeading
+                            <SortableColumnHeading
                                 columnHeaderId='name'
                                 columnHeaderName='Name'
-                                currentOrderBy={this.state.orderBy}
+                                currentOrderBy='name'
                                 asc={this.state.asc}
-                                setOrderBy={(newOrderBy) => this.setOrderBy(newOrderBy)}
-                                toggleAsc={() => this.toggleAsc()} /> */}
+                                // setOrderBy={() => null}
+                                toggleAsc={() => this.toggleAsc()} />
                             <th style={thStyles}>Description</th>
                             <th style={thStyles}>Action</th>
                         </tr>
