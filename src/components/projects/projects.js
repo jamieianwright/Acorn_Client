@@ -102,6 +102,7 @@ export class Projects extends Component {
                                 asc={this.state.asc}
                                 toggleAsc={() => this.toggleAsc()} />
                             <th style={thStyles}>Description</th>
+                            <th style={thStyles}>Active?</th>
                             <th style={thStyles}>Action</th>
                         </tr>
                     </thead>

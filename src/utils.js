@@ -1,10 +1,10 @@
-const truncateString = (input, char_limit = 32, suffix = '...') => {
+const truncateString = (input, charLimit = 32, suffix = '...') => {
   input = input.toString();
-  if (input.length <= char_limit) {
+  if (input.length <= charLimit) {
       return input;
     }
     else {
-      return input.substring(0, char_limit).trim() + suffix;
+      return input.substring(0, charLimit).trim() + suffix;
     }
 }
 
