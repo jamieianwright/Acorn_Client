@@ -30,7 +30,7 @@ class SupplierView extends Component {
                 phone_number: '',
                 website: '',
                 email: '',
-                supplierCollapse: false,
+                componentsCollapse: false,
             }
         }
 
@@ -74,6 +74,7 @@ class SupplierView extends Component {
             <ButtonGroup>
                 <SuppliersModal
                     crud='update'
+                    button={<i class="fas fa-edit"></i>}
                     {...this.state.supplier}
                     getSuppliers={this.getSupplier}/>
                 <Modal
@@ -90,7 +91,8 @@ class SupplierView extends Component {
                         <Button color="secondary" onClick={() => this.toggleDeleteModal()}>Cancel</Button>
                     </ModalFooter>
                 </Modal>
-                <Button color="danger" onClick={() => this.toggleDeleteModal()}>Delete</Button>
+                <Button color="danger" onClick={() => this.toggleDeleteModal()}><i class="fas fa-trash-alt"></i></Button>
+                <Link className='btn btn-warning' to={`/suppliers/`}><i class="fas fa-list-ul"></i></Link>
             </ButtonGroup>
         </div>
 
@@ -98,7 +100,7 @@ class SupplierView extends Component {
             ? <h1 className='d-inline-block'>{this.state.supplier.name}</h1>
             : <h1>Loading...</h1>;
 
-        const componentButton = (this.state.supplier.components !== undefined && this.state.supplier.components.length >= 1)? <Button color="primary" onClick={()=> this.setState({supplierCollapse: !this.state.supplierCollapse})} style={{ marginBottom: '1rem', marginTop: '1rem' }}>Toggle</Button> : <span>None</span>;
+        const componentButton = (this.state.supplier.components !== undefined && this.state.supplier.components.length >= 1)? <Button color="primary" onClick={()=> this.setState({componentsCollapse: !this.state.componentsCollapse})} style={{ marginBottom: '1rem', marginTop: '1rem' }}>{(this.state.componentsCollapse)? 'Hide' : 'Show' }</Button> : <span>None</span>;
 
 
         const components = (this.state.supplier.components)? this.state.supplier.components.map((component, i) => {
@@ -106,7 +108,6 @@ class SupplierView extends Component {
 
         return (
             <Container>
-                <Link className='btn btn-link' to={`/suppliers`}>{'< Return to Suppliers'}</Link>
                 <div className='d-flex align-items-center'>
                     {title}
                     {crud}
@@ -116,15 +117,9 @@ class SupplierView extends Component {
                     overrideDisplay={this.state.supplier.name}/>
                 <Row>
                     <Col md={6} className='view-col'>
-                        <h4 className='view-headers'>Name</h4>
-                        <span>{this.state.supplier.name}</span>
-                    </Col>
-                    <Col md={6} className='view-col'>
                         <h4 className='view-headers'>Phone Number</h4>
                         <span>{this.state.supplier.phone_number}</span>
                     </Col>
-                </Row>
-                <Row>
                     <Col md={6} className='view-col'>
                         <h4 className='view-headers'>Website</h4>
                         <span>{this.state.supplier.website}</span>
@@ -133,11 +128,9 @@ class SupplierView extends Component {
                         <h4 className='view-headers'>Email</h4>
                         <span>{this.state.supplier.email}</span>
                     </Col>
-                </Row>
-                <Row>
                     <Col md={6} className='view-col'>
                         <h4 className='view-headers'>Components</h4>
-                        <Collapse isOpen={this.state.supplierCollapse}>
+                        <Collapse isOpen={this.state.componentsCollapse}>
                             <ListGroup>
                                 {components}
                             </ListGroup>

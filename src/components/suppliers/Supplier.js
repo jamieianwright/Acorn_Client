@@ -35,7 +35,7 @@ class Supplier extends Component {
                 <th>
                 <ButtonGroup>
                     <Link className='btn btn-info' to={`/suppliers/${this.props.id}`}>View</Link>
-                    <SuppliersModal crud='update' {...this.props}/>
+                    <SuppliersModal crud='update' button={'Edit'} {...this.props}/>
                     <Modal isOpen={this.state.deleteModalVisible} toggle={() => this.toggleDeleteModal()} className={this.props.className}>
                         <ModalHeader>Delete Supplier</ModalHeader>
                         <ModalBody>
