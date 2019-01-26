@@ -8,6 +8,7 @@ import Components from './components/components/Components';
 import Projects from './components/projects/projects';
 import Login from './components/authentication/login';
 import AuthenticationComponent from './AuthenticationComponent';
+import './App.css';
 
 class App extends Component {
   constructor(props) {
