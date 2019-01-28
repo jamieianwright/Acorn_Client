@@ -13,8 +13,8 @@ import {
     Table
 } from 'reactstrap';
 import Breadcrumb from '../UIcomponents/BreadcrumbUI';
+import PaginationUI from '../UIcomponents/PaginationUI';
 import SortableColumnHeading from '../UIcomponents/SortableColumnHeading';
-
 
 class ProjectView extends Component {
     constructor(props) {
@@ -22,7 +22,22 @@ class ProjectView extends Component {
         this.state = {
             isLoaded: true,
             deleteModalVisible: false,
-            project: {}
+            project: {
+                id: '',
+                name: '',
+                quantity: 0,
+                is_active: 0,
+                components: [],
+                componentsPagination: {
+                    rowCount: 0,
+                    page: 0,
+                    pageSize: 0,
+                    pageCount: 0
+                },
+                page: 1,
+            },
+            orderBy: 'name',
+            asc: true,
         }
 
         this.getProject = this
@@ -37,15 +52,15 @@ class ProjectView extends Component {
     getProject() {
         this.setState({isLoaded: false})
 
-        fetch(process.env.REACT_APP_API_BASE_URL + `projects/${this.props.match.params.id}`)
+        fetch(process.env.REACT_APP_API_BASE_URL + `projects/${this.props.match.params.id}?componentsPage=${this.state.page}&componentsPageSize=10&componentOrder=${(this.state.asc) ? 'ASC' : 'DESC'}&componentOrderBy=${this.state.orderBy}`)
             .then(res => res.json())
             .then(result => {
                 this.setState({project: result, isLoaded: true})
             })
     }
 
-    handleDeleteSupplier() {
-        fetch(`${process.env.REACT_APP_API_BASE_URL}projects/${this.state.supplier.id}`, {method: 'DELETE'}).then(() => {
+    handleDeleteProject() {
+        fetch(`${process.env.REACT_APP_API_BASE_URL}projects/${this.state.project.id}`, {method: 'DELETE'}).then(() => {
             this
                 .props
                 .history
@@ -57,6 +72,20 @@ class ProjectView extends Component {
         this.setState({
             deleteModalVisible: !this.state.deleteModalVisible
         })
+    }
+
+    onPageChange(increment) {
+        this.setState({
+            page: increment
+        }, this.getProject)
+    }
+
+    toggleAsc() {
+        this.setState({ asc: !this.state.asc }, this.getProject)
+    }
+
+    setOrderBy(newOrderBy) {
+        this.setState({ orderBy: newOrderBy }, this.getProject)
     }
 
     render() {
@@ -75,7 +104,7 @@ class ProjectView extends Component {
                         Are you sure you wish to remove this project?
                     </ModalBody>
                     <ModalFooter>
-                        <Button color="danger" onClick={() => this.handleDeleteSupplier()}>Yes</Button>
+                        <Button color="danger" onClick={() => this.handleDeleteProject()}>Yes</Button>
                         <Button color="secondary" onClick={() => this.toggleDeleteModal()}>Cancel</Button>
                     </ModalFooter>
                 </Modal>
@@ -91,6 +120,32 @@ class ProjectView extends Component {
         const title = (this.state.isLoaded)
             ? <h1 className='d-inline-block'>{this.state.project.name}</h1>
             : <h1>Loading...</h1>;
+
+        const components = this
+            .state
+            .project
+            .components
+            .map((component, i) => {
+                return <tr>
+                    <td>{component.name}</td>
+                    <td>{component.quantity}</td>
+                    <td>
+                        <Button color='primary'>Edit</Button>
+                    </td>
+                </tr>
+            })
+
+        let pagination = null;
+        if (this.state.project.componentsPagination.pageCount > 1) {
+            pagination = (
+                <div className="justify-content-center">
+                    <PaginationUI
+                        currentPage={this.state.project.componentsPagination.page}
+                        maxPages={this.state.project.componentsPagination.pageCount}
+                        onPageChange={(page) => this.onPageChange(page)}/>
+                </div>
+            )
+        }
 
         return (
             <Container>
@@ -125,11 +180,15 @@ class ProjectView extends Component {
                                 currentOrderBy={this.state.orderBy}
                                 asc={this.state.asc}
                                 setOrderBy={(newOrderBy) => this.setOrderBy(newOrderBy)}
-                                toggleAsc={() => this.toggleAsc()}/>
-                            <th style={thStyles}>Action</th>
+                                toggleAsc={() => this.toggleAsc()}/> {(this.state.project.is_active === 0)
+                                ? <th style={thStyles}>Action</th>
+                                : null}
                         </tr>
                     </thead>
-                    <tbody></tbody>
+                    <tbody>
+                        {components}
+                    </tbody>
+                    {pagination}
                 </Table>
             </Container>
         )
