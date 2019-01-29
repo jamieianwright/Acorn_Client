@@ -54,7 +54,7 @@ class ProjectsModal extends Component {
                     'Accept': 'application/json',
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({ name: this.state.name, description: this.state.description })
+                body: JSON.stringify({ name: this.state.name, description: this.state.description, is_active: this.props.is_active })
             })
                 .then(res => res.json())
                 .then(result => {

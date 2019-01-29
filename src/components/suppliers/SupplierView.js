@@ -74,7 +74,7 @@ class SupplierView extends Component {
             <ButtonGroup>
                 <SuppliersModal
                     crud='update'
-                    button={<i class="fas fa-edit"></i>}
+                    button={<i className="fas fa-edit"></i>}
                     {...this.state.supplier}
                     getSuppliers={this.getSupplier}/>
                 <Modal

@@ -10,8 +10,10 @@ import {
     ModalFooter,
     Button,
     ButtonGroup,
-    Table
+    Table,
+    Alert
 } from 'reactstrap';
+import ProjectsModal from './ProjectsModal';
 import Breadcrumb from '../UIcomponents/BreadcrumbUI';
 import PaginationUI from '../UIcomponents/PaginationUI';
 import SortableColumnHeading from '../UIcomponents/SortableColumnHeading';
@@ -25,7 +27,6 @@ class ProjectView extends Component {
             project: {
                 id: '',
                 name: '',
-                quantity: 0,
                 is_active: 0,
                 components: [],
                 componentsPagination: {
@@ -95,6 +96,10 @@ class ProjectView extends Component {
 
         const crud = <div className='d-inline-block ml-3'>
             <ButtonGroup>
+                {(this.state.project.is_active === 0)? <ProjectsModal  crud='update'
+                    button={<i className="fas fa-edit"></i>}
+                    {...this.state.project}
+                    getProjects={this.getProject}/> : null}
                 <Modal
                     isOpen={this.state.deleteModalVisible}
                     toggle={() => this.toggleDeleteModal()}
@@ -109,10 +114,10 @@ class ProjectView extends Component {
                     </ModalFooter>
                 </Modal>
                 <Button color="danger" onClick={() => this.toggleDeleteModal()}>
-                    <i class="fas fa-trash-alt"></i>
+                    <i className="fas fa-trash-alt"></i>
                 </Button>
                 <Link className='btn btn-warning' to={`/projects`}>
-                    <i class="fas fa-list-ul"></i>
+                    <i className="fas fa-list-ul"></i>
                 </Link>
             </ButtonGroup>
         </div>
@@ -126,7 +131,7 @@ class ProjectView extends Component {
             .project
             .components
             .map((component, i) => {
-                return <tr>
+                return <tr key={i}>
                     <td>{component.name}</td>
                     <td>{component.quantity}</td>
                     <td>
@@ -164,7 +169,8 @@ class ProjectView extends Component {
                 </Row>
                 <hr/>
                 <h3>Components</h3>
-                <Table>
+                {(this.state.project.components.length > 1)
+                    ?<Table>
                     <thead>
                         <tr>
                             <SortableColumnHeading
@@ -180,7 +186,8 @@ class ProjectView extends Component {
                                 currentOrderBy={this.state.orderBy}
                                 asc={this.state.asc}
                                 setOrderBy={(newOrderBy) => this.setOrderBy(newOrderBy)}
-                                toggleAsc={() => this.toggleAsc()}/> {(this.state.project.is_active === 0)
+                                toggleAsc={() => this.toggleAsc()}/> 
+                            {(this.state.project.is_active === 0)
                                 ? <th style={thStyles}>Action</th>
                                 : null}
                         </tr>
@@ -189,7 +196,7 @@ class ProjectView extends Component {
                         {components}
                     </tbody>
                     {pagination}
-                </Table>
+                </Table> : <Alert color='danger' className='my-4'>There are no components associated with this project</Alert> }
             </Container>
         )
     }
