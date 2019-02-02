@@ -166,16 +166,11 @@ class ProjectView extends Component {
                         <span>{this.state.project.description}</span>
                     </Col>
                 </Row>
-<<<<<<< HEAD
                 <hr/>
                 <div className='d-flex pb-3'>
                     <h3 className='mb-0'>Components</h3> 
                     {(this.state.project.is_active === 0) ? <ProjectComponentModal project_id={this.state.project.id} getProject={this.getProject} crud='create'/>: null}
                 </div>
-=======
-                <hr />
-                <h3>Components</h3>
->>>>>>> 7377a44b9ad879767bc96f4631c34dfc4e1f7bd0
                 {(this.state.project.components.length > 1)
                     ? <Table>
                         <thead>
