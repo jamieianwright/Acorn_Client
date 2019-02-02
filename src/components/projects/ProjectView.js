@@ -1,5 +1,5 @@
-import React, {Component} from 'react'
-import {withRouter, Link} from 'react-router-dom';
+import React, { Component } from 'react'
+import { withRouter, Link } from 'react-router-dom';
 import {
     Container,
     Col,
@@ -51,22 +51,20 @@ class ProjectView extends Component {
     }
 
     getProject() {
-        this.setState({isLoaded: false})
+        this.setState({ isLoaded: false })
 
         fetch(process.env.REACT_APP_API_BASE_URL + `projects/${this.props.match.params.id}?componentsPage=${this.state.page}&componentsPageSize=10&componentOrder=${(this.state.asc) ? 'ASC' : 'DESC'}&componentOrderBy=${this.state.orderBy}`)
             .then(res => res.json())
             .then(result => {
-                this.setState({project: result, isLoaded: true})
+                this.setState({ project: result, isLoaded: true })
             })
     }
 
     handleDeleteProject() {
-        fetch(`${process.env.REACT_APP_API_BASE_URL}projects/${this.state.project.id}`, {method: 'DELETE'}).then(() => {
-            this
-                .props
-                .history
-                .go(-1)
-        })
+        fetch(`${process.env.REACT_APP_API_BASE_URL}projects/${this.state.project.id}`, { method: 'DELETE' })
+            .then(() => {
+                this.props.history.push('/projects');
+            })
     }
 
     toggleDeleteModal() {
@@ -96,10 +94,10 @@ class ProjectView extends Component {
 
         const crud = <div className='d-inline-block ml-3'>
             <ButtonGroup>
-                {(this.state.project.is_active === 0)? <ProjectsModal  crud='update'
+                {(this.state.project.is_active === 0) ? <ProjectsModal crud='update'
                     button={<i className="fas fa-edit"></i>}
                     {...this.state.project}
-                    getProjects={this.getProject}/> : null}
+                    getProjects={this.getProject} /> : null}
                 <Modal
                     isOpen={this.state.deleteModalVisible}
                     toggle={() => this.toggleDeleteModal()}
@@ -147,7 +145,7 @@ class ProjectView extends Component {
                     <PaginationUI
                         currentPage={this.state.project.componentsPagination.page}
                         maxPages={this.state.project.componentsPagination.pageCount}
-                        onPageChange={(page) => this.onPageChange(page)}/>
+                        onPageChange={(page) => this.onPageChange(page)} />
                 </div>
             )
         }
@@ -156,7 +154,7 @@ class ProjectView extends Component {
             <Container>
                 <Breadcrumb
                     location={this.props.location}
-                    overrideDisplay={this.state.project.name}/>
+                    overrideDisplay={this.state.project.name} />
                 <div className='d-flex align-items-center'>
                     {title}
                     {crud}
@@ -167,36 +165,36 @@ class ProjectView extends Component {
                         <span>{this.state.project.description}</span>
                     </Col>
                 </Row>
-                <hr/>
+                <hr />
                 <h3>Components</h3>
                 {(this.state.project.components.length > 1)
-                    ?<Table>
-                    <thead>
-                        <tr>
-                            <SortableColumnHeading
-                                columnHeaderId='name'
-                                columnHeaderName='Name'
-                                currentOrderBy={this.state.orderBy}
-                                asc={this.state.asc}
-                                setOrderBy={(newOrderBy) => this.setOrderBy(newOrderBy)}
-                                toggleAsc={() => this.toggleAsc()}/>
-                            <SortableColumnHeading
-                                columnHeaderId='quantity'
-                                columnHeaderName='Quantity'
-                                currentOrderBy={this.state.orderBy}
-                                asc={this.state.asc}
-                                setOrderBy={(newOrderBy) => this.setOrderBy(newOrderBy)}
-                                toggleAsc={() => this.toggleAsc()}/> 
-                            {(this.state.project.is_active === 0)
-                                ? <th style={thStyles}>Action</th>
-                                : null}
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {components}
-                    </tbody>
-                    {pagination}
-                </Table> : <Alert color='danger' className='my-4'>There are no components associated with this project</Alert> }
+                    ? <Table>
+                        <thead>
+                            <tr>
+                                <SortableColumnHeading
+                                    columnHeaderId='name'
+                                    columnHeaderName='Name'
+                                    currentOrderBy={this.state.orderBy}
+                                    asc={this.state.asc}
+                                    setOrderBy={(newOrderBy) => this.setOrderBy(newOrderBy)}
+                                    toggleAsc={() => this.toggleAsc()} />
+                                <SortableColumnHeading
+                                    columnHeaderId='quantity'
+                                    columnHeaderName='Quantity'
+                                    currentOrderBy={this.state.orderBy}
+                                    asc={this.state.asc}
+                                    setOrderBy={(newOrderBy) => this.setOrderBy(newOrderBy)}
+                                    toggleAsc={() => this.toggleAsc()} />
+                                {(this.state.project.is_active === 0)
+                                    ? <th style={thStyles}>Action</th>
+                                    : null}
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {components}
+                        </tbody>
+                        {pagination}
+                    </Table> : <Alert color='danger' className='my-4'>There are no components associated with this project</Alert>}
             </Container>
         )
     }

@@ -1,5 +1,5 @@
-import React, {Component} from 'react'
-import {withRouter, Link} from 'react-router-dom';
+import React, { Component } from 'react'
+import { withRouter, Link } from 'react-router-dom';
 import {
     Container,
     Col,
@@ -44,22 +44,20 @@ class SupplierView extends Component {
     }
 
     getSupplier() {
-        this.setState({isLoaded: false})
+        this.setState({ isLoaded: false })
 
         fetch(process.env.REACT_APP_API_BASE_URL + `suppliers/${this.props.match.params.id}/components`)
             .then(res => res.json())
             .then(result => {
-                this.setState({supplier: result, isLoaded: true})
+                this.setState({ supplier: result, isLoaded: true })
             })
     }
 
     handleDeleteSupplier() {
-        fetch(`${process.env.REACT_APP_API_BASE_URL}suppliers/${this.state.supplier.id}`, {method: 'DELETE'}).then(() => {
-            this
-                .props
-                .history
-                .go(-1)
-        })
+        fetch(`${process.env.REACT_APP_API_BASE_URL}suppliers/${this.state.supplier.id}`, { method: 'DELETE' })
+            .then(() => {
+                this.props.history.push('/suppliers');
+            })
     }
 
     toggleDeleteModal() {
@@ -76,7 +74,7 @@ class SupplierView extends Component {
                     crud='update'
                     button={<i className="fas fa-edit"></i>}
                     {...this.state.supplier}
-                    getSuppliers={this.getSupplier}/>
+                    getSuppliers={this.getSupplier} />
                 <Modal
                     isOpen={this.state.deleteModalVisible}
                     toggle={() => this.toggleDeleteModal()}
@@ -100,17 +98,18 @@ class SupplierView extends Component {
             ? <h1 className='d-inline-block'>{this.state.supplier.name}</h1>
             : <h1>Loading...</h1>;
 
-        const componentButton = (this.state.supplier.components !== undefined && this.state.supplier.components.length >= 1)? <Button color="primary" onClick={()=> this.setState({componentsCollapse: !this.state.componentsCollapse})} style={{ marginBottom: '1rem', marginTop: '1rem' }}>{(this.state.componentsCollapse)? 'Hide' : 'Show' }</Button> : <span>None</span>;
+        const componentButton = (this.state.supplier.components !== undefined && this.state.supplier.components.length >= 1) ? <Button color="primary" onClick={() => this.setState({ componentsCollapse: !this.state.componentsCollapse })} style={{ marginBottom: '1rem', marginTop: '1rem' }}>{(this.state.componentsCollapse) ? 'Hide' : 'Show'}</Button> : <span>None</span>;
 
 
-        const components = (this.state.supplier.components)? this.state.supplier.components.map((component, i) => {
-                    return <ListGroupItem key={i}><Link className='' to={`/components/${component.id}`}>{component.name} </Link></ListGroupItem>}) : null ;
+        const components = (this.state.supplier.components) ? this.state.supplier.components.map((component, i) => {
+            return <ListGroupItem key={i}><Link className='' to={`/components/${component.id}`}>{component.name} </Link></ListGroupItem>
+        }) : null;
 
         return (
             <Container>
                 <Breadcrumb
                     location={this.props.location}
-                    overrideDisplay={this.state.supplier.name}/>
+                    overrideDisplay={this.state.supplier.name} />
                 <div className='d-flex align-items-center supplier-view-header'>
                     {title}
                     {crud}
