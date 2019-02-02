@@ -14,6 +14,7 @@ import {
     Alert
 } from 'reactstrap';
 import ProjectsModal from './ProjectsModal';
+import ProjectComponentModal from './ProjectComponentsModal';
 import Breadcrumb from '../UIcomponents/BreadcrumbUI';
 import PaginationUI from '../UIcomponents/PaginationUI';
 import SortableColumnHeading from '../UIcomponents/SortableColumnHeading';
@@ -135,7 +136,7 @@ class ProjectView extends Component {
                     <td>{component.name}</td>
                     <td>{component.quantity}</td>
                     <td>
-                        <Button color='primary'>Edit</Button>
+                        <ProjectComponentModal getProject={this.getProject} project_id={this.state.project.id} crud='update' {...component}  button={<i className="fas fa-edit"></i>}/>
                     </td>
                 </tr>
             })
@@ -168,7 +169,10 @@ class ProjectView extends Component {
                     </Col>
                 </Row>
                 <hr/>
-                <h3>Components</h3>
+                <div className='d-flex pb-3'>
+                    <h3 className='mb-0'>Components</h3> 
+                    {(this.state.project.is_active === 0) ? <ProjectComponentModal project_id={this.state.project.id} getProject={this.getProject} crud='create'/>: null}
+                </div>
                 {(this.state.project.components.length > 1)
                     ?<Table>
                     <thead>
