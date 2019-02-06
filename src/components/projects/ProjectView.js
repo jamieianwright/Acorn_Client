@@ -140,7 +140,7 @@ class ProjectView extends Component {
             })
 
         let pagination = null;
-        if (this.state.project.componentsPagination.pageCount > 1) {
+        if (this.state.project.componentsPagination.pageCount > 0) {
             pagination = (
                 <div className="justify-content-center">
                     <PaginationUI
@@ -171,7 +171,7 @@ class ProjectView extends Component {
                     <h3 className='mb-0'>Components</h3> 
                     {(this.state.project.is_active === 0) ? <ProjectComponentModal project_id={this.state.project.id} getProject={this.getProject} crud='create'/>: null}
                 </div>
-                {(this.state.project.components.length > 1)
+                {(this.state.project.components.length > 0)
                     ? <Table>
                         <thead>
                             <tr>

@@ -5,7 +5,7 @@ import NavBarUI from './components/UIcomponents/NavBarUI';
 import Suppliers from './components/suppliers/Suppliers';
 import SupplierView from './components/suppliers/SupplierView'
 import Components from './components/components/Components';
-import Projects from './components/projects/projects';
+import Projects from './components/projects/Projects';
 import ProjectView from './components/projects/ProjectView'
 import Login from './components/authentication/login';
 import AuthenticationComponent from './AuthenticationComponent';
