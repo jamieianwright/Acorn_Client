@@ -56,12 +56,9 @@ class ProjectComponentsModal extends Component {
         if (!this.state.component_id || !this.state.quantity) {
             this.setState({alertVisible: true, alertMessage: 'You must include all details about the component before submitting.'})
         } else {
-            console.log('submit')
             const method = (this.props.crud === 'create')
                 ? 'POST'
                 : 'PUT';
-
-            console.log(`${process.env.REACT_APP_API_BASE_URL}projects/${this.props.project_id}/component`)
 
             fetch(`${process.env.REACT_APP_API_BASE_URL}projects/${this.props.project_id}/component`, {
                 method: method,
@@ -73,7 +70,6 @@ class ProjectComponentsModal extends Component {
                 })
                 .then(res => res.json())
                 .then(result => {
-                    console.log(result)
                     this
                         .props
                         .getProject();
