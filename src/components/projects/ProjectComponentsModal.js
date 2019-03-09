@@ -148,7 +148,9 @@ class ProjectComponentsModal extends Component {
                                     placeholder="Component Name"
                                     onChange={(e) => this.handleChange(e)}
                                     value={this.state.component_name}
-                                    maxLength="255"/>
+                                    maxLength="255" 
+                                    disabled = {(this.props.project_id)? true : false}
+                                    />
                             </FormGroup>
                             <FormGroup>
                                 {suggestionsListComponent}
