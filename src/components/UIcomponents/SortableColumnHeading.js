@@ -5,7 +5,7 @@ import { Button } from 'reactstrap';
 const SortableColumnHeading = (props) => (
     <th className="align-middle">
         <div className=" d-inline-flex align-items-center">
-            <Button color='link'
+            <Button color='link' className="pl-0"
                 disabled={props.columnHeaderId === props.currentOrderBy ? true : false}
                 onClick={() => props.setOrderBy(props.columnHeaderId)}>
                 {props.columnHeaderName}

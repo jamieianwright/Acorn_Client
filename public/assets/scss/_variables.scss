@@ -1,19 +1,26 @@
 @import "node_modules/bootstrap/scss/functions.scss";
-@import "fonts";
-
-$primary: #3D6A4B;
+$green: #5D8B40;
+$primary: $green;
+$secondary: #3D6A4B;
 $tertiary: #443923;
-$quaternary: #E7F0B7;
-$quinary: #C7DF6F;
-$senary: #5D8B40;
-$septenary: #A5DBA9;
-
+$quaternary: #A5DBA9;
+$quinary: #E7F0B7;
+$senary: #C7DF6F;
 $theme-colors: (
   "tertiary": $tertiary,
   "quaternary": $quaternary,
   "quinary": $quinary,
-  "senary": $senary,
-  "septenary": $septenary
+  "senary": $senary
 );
-
 $font-family-sans-serif: 'Ubuntu', sans-serif;
+$border-radius: 0;
+$border-radius-lg: $border-radius;
+$border-radius-sm: $border-radius;
+$font-size-base: 0.875rem;
+$font-size-lg: 1.25rem;
+$font-size-sm: 0.75rem;
+$breadcrumb-bg: transparent;
+$breadcrumb-divider-color: $primary;
+$breadcrumb-active-color: $primary;
+$breadcrumb-padding-x: 0rem;
+$breadcrumb-margin-bottom: 1rem;
