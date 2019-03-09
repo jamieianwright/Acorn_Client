@@ -159,6 +159,8 @@ class ProjectView extends Component {
                     <td>{component.name}</td>
                     <td>{component.quantity}</td>
                     <td>
+                    {
+                        (this.state.project.is_active === 0)?
                         <ButtonGroup>
                             <ProjectComponentModal
                                 getProject={this.getProject}
@@ -172,6 +174,8 @@ class ProjectView extends Component {
                                 <i className="fas fa-trash-alt"></i>
                             </Button>
                         </ButtonGroup>
+                        : null
+                    }  
                     </td>
                 </tr>
             })
@@ -195,7 +199,7 @@ class ProjectView extends Component {
                     overrideDisplay={this.state.project.name}/>
                 <div className='d-flex align-items-center'>
                     {title}
-                    {crud}
+                    {(this.state.project.is_active === 0)? crud : null}
                 </div>
                 <Row>
                     <Col md={12} className='view-col'>
@@ -231,7 +235,8 @@ class ProjectView extends Component {
                                             currentOrderBy={this.state.orderBy}
                                             asc={this.state.asc}
                                             setOrderBy={(newOrderBy) => this.setOrderBy(newOrderBy)}
-                                            toggleAsc={() => this.toggleAsc()}/> {(this.state.project.is_active === 0)
+                                            toggleAsc={() => this.toggleAsc()}/>     
+                                        {(this.state.project.is_active === 0)
                                             ? <th style={thStyles}>Action</th>
                                             : null}
                                     </tr>
