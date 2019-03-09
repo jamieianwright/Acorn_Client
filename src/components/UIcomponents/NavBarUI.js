@@ -31,7 +31,7 @@ export class NavBarUI extends Component {
             : <LogIn/>;
 
         return (
-            <Navbar color="light" light expand="md">
+            <Navbar color="light" className="mb-3" light expand="md">
                 <Container>
                     <Link to='/' className='navbar-brand text-primary'>Dashboard</Link>
                     <NavbarToggler onClick={() => this.toggle()}/>

@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
-import { withRouter, BrowserRouter, Switch, Route } from 'react-router-dom';
-import { Container } from 'reactstrap';
+import { withRouter, BrowserRouter, Switch, Route, Link } from 'react-router-dom';
+import { Container, Row, Col } from 'reactstrap';
 import NavBarUI from './components/UIcomponents/NavBarUI';
 import Suppliers from './components/suppliers/Suppliers';
 import SupplierView from './components/suppliers/SupplierView'
 import Components from './components/components/Components';
-import Projects from './components/projects/Projects';
+import Projects from './components/projects/projects';
 import ProjectView from './components/projects/ProjectView'
 import Login from './components/authentication/login';
 import AuthenticationComponent from './AuthenticationComponent';
@@ -69,7 +69,7 @@ class App extends Component {
               <Route exact path="/projects/:id" component={ProjectView} />
             </AuthenticationComponent>
             <Route component={PageNotFound} />
-          </Switch>   
+          </Switch>
       </main>
       </div>
       </BrowserRouter>
@@ -82,7 +82,35 @@ const PageNotFound = () => (
 )
 
 const Home = () => (
-  <Container>Dashboard coming soon!</Container>
+  <Container className="py-5">
+    <h1 className="h6 mb-4">Getting Started</h1>
+    <Row>
+      <Col lg="3">
+        <Link className='btn btn-primary p-4 text-center w-100 disabled' to={`/`} disabled>
+          <i className="fas fa-shipping-fast fa-2x mb-3"></i>
+          <span className="d-block h4 mb-0">Orders</span>
+        </Link>
+      </Col>
+      <Col lg="3">
+        <Link className='btn btn-primary p-4 text-center w-100' to={`/projects`}>
+          <i className="fas fa-project-diagram fa-2x mb-3"></i>
+          <span className="d-block h4 mb-0">Projects</span>
+        </Link>
+      </Col>
+      <Col lg="3">
+        <Link className='btn btn-primary p-4 text-center w-100' to={`/components`}>
+          <i className="fas fa-bolt fa-2x mb-3"></i>
+          <span className="d-block h4 mb-0">Components</span>
+        </Link>
+      </Col>
+      <Col lg="3">
+        <Link className='btn btn-primary p-4 text-center w-100' to={`/suppliers`}>
+          <i className="fas fa-industry fa-2x mb-3"></i>
+          <span className="d-block h4 mb-0">Suppliers</span>
+        </Link>
+      </Col>
+    </Row>
+  </Container>
 )
 
 export default withRouter(App);

@@ -1,2 +1,7 @@
+@import "fonts";
 @import "variables";
 @import "node_modules/bootstrap/scss/bootstrap.scss";
+
+th {
+  font-weight: normal;
+}
