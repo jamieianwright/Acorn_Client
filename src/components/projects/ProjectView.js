@@ -243,11 +243,11 @@ class ProjectView extends Component {
                         statusModal: !prevState.statusModal
                     }))}>
                         <ModalBody>
-                            Warning! You are about to set project {this.state.project.name}
+                            Warning! You are about to set project {this.state.project.name + ' '}
                             to active. Active projects cannot be edited.
                         </ModalBody>
                         <ModalFooter>
-                            <Button color="warning" onClick={() => this.onSetActive()}>Do Something</Button>{' '}
+                            <Button color="warning" onClick={() => this.onSetActive()}>Make Active</Button>{' '}
                             <Button
                                 color="secondary"
                                 onClick={() => this.setState(prevState => ({
