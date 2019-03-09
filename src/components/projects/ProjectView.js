@@ -18,6 +18,7 @@ import ProjectComponentModal from './ProjectComponentsModal';
 import Breadcrumb from '../UIcomponents/BreadcrumbUI';
 import PaginationUI from '../UIcomponents/PaginationUI';
 import SortableColumnHeading from '../UIcomponents/SortableColumnHeading';
+import './ProjectView.css';
 
 class ProjectView extends Component {
     constructor(props) {
@@ -39,7 +40,9 @@ class ProjectView extends Component {
                 page: 1
             },
             orderBy: 'name',
-            asc: true
+            asc: true,
+            alertVisible: true,
+            statusModal: false
         }
 
         this.getProject = this
@@ -59,8 +62,19 @@ class ProjectView extends Component {
                 : 'DESC'}&componentOrderBy=${this.state.orderBy}`)
             .then(res => res.json())
             .then(result => {
-                this.setState({project: result, isLoaded: true})
+                this.setState({project: result, isLoaded: true, statusModal: false})
             })
+    }
+
+    onSetActive() {
+        fetch(`${process.env.REACT_APP_API_BASE_URL}projects/${this.state.project.id}`, {
+            method: 'PUT',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({name: this.state.project.name, description: this.state.project.description, is_active: 1})
+        }).then(result => this.getProject())
     }
 
     handleDeleteProject() {
@@ -80,8 +94,7 @@ class ProjectView extends Component {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({component_id: component_id})
-        })
-        .then((update) => {
+        }).then((update) => {
             this.getProject()
         })
     }
@@ -114,6 +127,14 @@ class ProjectView extends Component {
         const thStyles = {
             verticalAlign: "middle"
         }
+
+        const alert = (this.state.project.is_active)
+            ? <Alert
+                    color="warning"
+                    isOpen={this.state.alertVisible}
+                    toggle={() => this.setState({alertVisible: false})}>Project {this.state.project.name + ' '}
+                    has been set to active and cannot be edited.</Alert>
+            : null;
 
         const crud = <div className='d-inline-block ml-3'>
             <ButtonGroup>
@@ -159,23 +180,21 @@ class ProjectView extends Component {
                     <td>{component.name}</td>
                     <td>{component.quantity}</td>
                     <td>
-                    {
-                        (this.state.project.is_active === 0)?
-                        <ButtonGroup>
-                            <ProjectComponentModal
-                                getProject={this.getProject}
-                                project_id={this.state.project.id}
-                                crud='update'
-                                {...component}
-                                button={< i className = "fas fa-edit" > </i>}/>
-                            <Button
-                                color="danger"
-                                onClick={() => this.handleDeleteProjectComponent(component.id)}>
-                                <i className="fas fa-trash-alt"></i>
-                            </Button>
-                        </ButtonGroup>
-                        : null
-                    }  
+                        {(this.state.project.is_active === 0)
+                            ? <ButtonGroup>
+                                    <ProjectComponentModal
+                                        getProject={this.getProject}
+                                        project_id={this.state.project.id}
+                                        crud='update'
+                                        {...component}
+                                        button={< i className = "fas fa-edit" > </i>}/>
+                                    <Button
+                                        color="danger"
+                                        onClick={() => this.handleDeleteProjectComponent(component.id)}>
+                                        <i className="fas fa-trash-alt"></i>
+                                    </Button>
+                                </ButtonGroup>
+                            : null}
                     </td>
                 </tr>
             })
@@ -196,10 +215,46 @@ class ProjectView extends Component {
             <Container>
                 <Breadcrumb
                     location={this.props.location}
-                    overrideDisplay={this.state.project.name}/>
+                    overrideDisplay={this.state.project.name}/> {alert}
+
                 <div className='d-flex align-items-center'>
                     {title}
-                    {(this.state.project.is_active === 0)? crud : null}
+                    {(this.state.project.is_active === 0)
+                        ? crud
+                        : null}
+                    <Button
+                        className='btn-status'
+                        color={this.state.project.is_active
+                        ? 'success'
+                        : 'warning'}
+                        onClick={() => this.setState(prevState => ({
+                        statusModal: !prevState.statusModal
+                    }))}
+                        disabled={this.state.project.is_active
+                        ? true
+                        : false}>
+                        {this.state.project.is_active
+                            ? 'Active'
+                            : 'Pending...'}
+                    </Button>
+                    <Modal
+                        isOpen={this.state.statusModal}
+                        toggle={() => this.setState(prevState => ({
+                        statusModal: !prevState.statusModal
+                    }))}>
+                        <ModalBody>
+                            Warning! You are about to set project {this.state.project.name}
+                            to active. Active projects cannot be edited.
+                        </ModalBody>
+                        <ModalFooter>
+                            <Button color="warning" onClick={() => this.onSetActive()}>Do Something</Button>{' '}
+                            <Button
+                                color="secondary"
+                                onClick={() => this.setState(prevState => ({
+                                statusModal: !prevState.statusModal
+                            }))}>Cancel</Button>
+                        </ModalFooter>
+                    </Modal>
                 </div>
                 <Row>
                     <Col md={12} className='view-col'>
@@ -235,8 +290,7 @@ class ProjectView extends Component {
                                             currentOrderBy={this.state.orderBy}
                                             asc={this.state.asc}
                                             setOrderBy={(newOrderBy) => this.setOrderBy(newOrderBy)}
-                                            toggleAsc={() => this.toggleAsc()}/>     
-                                        {(this.state.project.is_active === 0)
+                                            toggleAsc={() => this.toggleAsc()}/> {(this.state.project.is_active === 0)
                                             ? <th style={thStyles}>Action</th>
                                             : null}
                                     </tr>
